@@ -1,0 +1,36 @@
+.vip-manager-page {
+  display: grid;
+  gap: 22px;
+}
+
+.vip-manager-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.vip-manager-heading h1 {
+  margin: 0;
+  color: #0f2c45;
+  font-size: 34px;
+}
+
+.vip-manager-heading label {
+  display: grid;
+  gap: 7px;
+  width: min(360px, 100%);
+}
+
+.vip-manager-heading span {
+  color: #667085;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+@media (max-width: 640px) {
+  .vip-manager-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

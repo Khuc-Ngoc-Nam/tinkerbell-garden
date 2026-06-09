@@ -1,0 +1,378 @@
+.ticketing-admin-page {
+  display: grid;
+  gap: 24px;
+}
+
+.ticketing-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.ticketing-page-header h1 {
+  margin: 0;
+  color: #0f2c45;
+  font-size: 34px;
+}
+
+.ticketing-layout {
+  display: grid;
+  grid-template-columns: minmax(340px, 0.95fr) minmax(0, 1.35fr);
+  gap: 22px;
+  align-items: start;
+}
+
+.ticketing-card {
+  display: grid;
+  gap: 16px;
+  border: 1px solid #edf0ea;
+  border-radius: 20px;
+  padding: 24px;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(31, 41, 55, 0.08);
+}
+
+.ticketing-card h2 {
+  margin: 0;
+  color: #0f2c45;
+  font-size: 24px;
+}
+
+.ticketing-lookup-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: end;
+}
+
+.ticketing-lookup-row label,
+.ticketing-field {
+  display: grid;
+  gap: 7px;
+}
+
+.ticketing-lookup-row span,
+.ticketing-field span {
+  color: #667085;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.ticketing-vip-label,
+.ticketing-discount {
+  width: fit-content;
+  margin: 0;
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: #eaf7ed;
+  color: #217a55;
+  font-weight: 900;
+}
+
+.ticketing-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  border-radius: 16px;
+  padding: 6px;
+  background: #f5faf7;
+}
+
+.ticketing-tabs button {
+  min-height: 44px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: #344054;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.ticketing-tabs button.active {
+  background: #ffffff;
+  color: #0f2c45;
+  box-shadow: 0 4px 12px rgba(31, 41, 55, 0.08);
+}
+
+.ticketing-tab-panel {
+  display: grid;
+  gap: 14px;
+}
+
+.ticketing-total-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  border-radius: 16px;
+  padding: 18px;
+  background: #f5faf7;
+}
+
+.ticketing-total-box span {
+  color: #667085;
+  font-weight: 800;
+}
+
+.ticketing-total-box strong {
+  color: #217a55;
+  font-size: 28px;
+}
+
+.ticketing-payment-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.ticketing-payment-actions button {
+  min-height: 52px;
+  border: 0;
+  border-radius: 15px;
+  background: #8bd094;
+  color: #ffffff;
+  box-shadow: 0 10px 20px rgba(87, 171, 105, 0.22);
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.ticketing-session-card {
+  min-width: 0;
+}
+
+.ticketing-table-wrap {
+  overflow-x: auto;
+}
+
+.ticketing-table-wrap table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+}
+
+.ticketing-table-wrap th,
+.ticketing-table-wrap td {
+  border-bottom: 1px solid #edf0ea;
+  padding: 12px;
+  text-align: left;
+}
+
+.ticketing-table-wrap th {
+  color: #667085;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.ticketing-table-wrap td.empty-table-cell {
+  color: #667085;
+  text-align: center;
+}
+
+.checkin-button,
+.checkout-button {
+  min-height: 40px;
+  border: 0;
+  border-radius: 12px;
+  padding: 0 14px;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.checkin-button {
+  background: #16a34a;
+  box-shadow: 0 8px 16px rgba(22, 163, 74, 0.2);
+}
+
+.checkin-button:hover {
+  background: #15803d;
+}
+
+.checkout-button {
+  background: #f97316;
+  box-shadow: 0 8px 16px rgba(249, 115, 22, 0.2);
+}
+
+.checkout-button:hover {
+  background: #ea580c;
+}
+
+.checkout-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.ticketing-modal-backdrop {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.52);
+  backdrop-filter: blur(4px);
+}
+
+.ticketing-modal {
+  width: min(540px, 100%);
+  border: 1px solid #edf0ea;
+  border-radius: 20px;
+  padding: 24px;
+  background: #ffffff;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.24);
+}
+
+.ticketing-modal-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.ticketing-modal-heading h2 {
+  margin: 0;
+  color: #0f2c45;
+  font-size: 24px;
+}
+
+.ticketing-vip-form {
+  display: grid;
+  gap: 14px;
+}
+
+.checkout-summary-modal {
+  width: min(680px, 100%);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+}
+
+.checkout-summary-list {
+  display: grid;
+  gap: 12px;
+}
+
+.checkout-summary-list div {
+  display: grid;
+  grid-template-columns: minmax(160px, 0.85fr) minmax(0, 1.15fr);
+  gap: 14px;
+  align-items: center;
+  border-bottom: 1px solid #edf0ea;
+  padding: 12px 0;
+}
+
+.checkout-summary-list span {
+  color: #667085;
+  font-weight: 800;
+}
+
+.checkout-summary-list strong {
+  color: #0f2c45;
+  font-size: 16px;
+}
+
+.checkout-bill-box {
+  display: grid;
+  gap: 12px;
+  border-radius: 16px;
+  padding: 16px;
+  background: #f8fafc;
+}
+
+.checkout-bill-box h3 {
+  margin: 0;
+  color: #0f2c45;
+  font-size: 20px;
+}
+
+.checkout-bill-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  border-bottom: 1px solid #e8ede8;
+  padding: 10px 0;
+}
+
+.checkout-bill-row span {
+  color: #667085;
+  font-weight: 800;
+}
+
+.checkout-bill-row strong {
+  color: #0f2c45;
+  font-size: 18px;
+}
+
+.checkout-bill-row em {
+  grid-column: 1 / -1;
+  width: fit-content;
+  border-radius: 999px;
+  padding: 6px 10px;
+  background: #eaf7ed;
+  color: #217a55;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.checkout-bill-row.discount strong {
+  color: #217a55;
+}
+
+.checkout-bill-row.total {
+  border-bottom: 0;
+  padding-top: 14px;
+}
+
+.checkout-bill-row.total span,
+.checkout-bill-row.total strong {
+  color: #0f2c45;
+  font-size: 24px;
+}
+
+.checkout-service-lines {
+  display: grid;
+  gap: 6px;
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: #ffffff;
+}
+
+.checkout-service-lines p,
+.checkout-bill-note {
+  margin: 0;
+  color: #667085;
+  line-height: 1.5;
+  font-weight: 700;
+}
+
+.checkout-bill-note {
+  color: #9a3412;
+}
+
+@media (max-width: 900px) {
+  .ticketing-layout,
+  .ticketing-lookup-row,
+  .ticketing-tabs,
+  .ticketing-payment-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .ticketing-page-header,
+  .ticketing-modal-heading,
+  .ticketing-total-box {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .checkout-summary-list div {
+    grid-template-columns: 1fr;
+  }
+
+  .checkout-bill-row {
+    grid-template-columns: 1fr;
+  }
+}

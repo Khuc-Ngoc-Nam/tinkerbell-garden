@@ -1,0 +1,257 @@
+.paid-services-page {
+  display: grid;
+  gap: 22px;
+}
+
+.paid-services-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.paid-services-kicker {
+  display: block;
+  margin-bottom: 6px;
+  color: #397259;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.paid-services-header h1 {
+  margin: 0;
+  color: #0f2c45;
+  font-size: 44px;
+  line-height: 1.1;
+}
+
+.paid-services-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.paid-services-actions button,
+.paid-service-submit {
+  border: 0;
+  border-radius: 16px;
+  background: #8bd094;
+  color: #ffffff;
+  box-shadow: 0 12px 24px rgba(47, 141, 75, 0.18);
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.paid-services-actions button {
+  min-height: 44px;
+  padding: 0 18px;
+}
+
+.paid-service-message {
+  margin: 0;
+  border: 1px solid #d7eadc;
+  border-radius: 14px;
+  padding: 12px 14px;
+  background: #f2fbf5;
+  color: #1f5d42;
+  font-weight: 800;
+}
+
+.paid-service-layout {
+  display: grid;
+  grid-template-columns: minmax(320px, 0.82fr) minmax(0, 1.6fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.paid-service-card {
+  border: 1px solid #edf0ea;
+  border-radius: 20px;
+  padding: 26px;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(31, 41, 55, 0.08);
+}
+
+.paid-service-form {
+  display: grid;
+  gap: 18px;
+}
+
+.paid-service-form h2,
+.paid-service-table-heading h2 {
+  margin: 0;
+  color: #0f2c45;
+  font-size: 28px;
+  line-height: 1.15;
+}
+
+.paid-service-field {
+  display: grid;
+  gap: 8px;
+  color: #5f6f8a;
+  font-weight: 900;
+}
+
+.paid-service-field span {
+  font-size: 14px;
+}
+
+.paid-service-field input,
+.paid-service-field select {
+  width: 100%;
+  min-height: 54px;
+  border: 1px solid #dfe7df;
+  border-radius: 16px;
+  padding: 0 16px;
+  background: #ffffff;
+  color: #0f2c45;
+  font: inherit;
+}
+
+.paid-service-field input[type="file"] {
+  min-height: auto;
+  padding: 14px 16px;
+}
+
+.paid-service-form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.paid-service-submit {
+  min-height: 58px;
+  margin-top: 4px;
+  font-size: 18px;
+}
+
+.paid-service-back-button {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 14px;
+  border: 1px solid #dfe7df;
+  border-radius: 14px;
+  background: #ffffff;
+  color: #0f2c45;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.paid-service-table-card {
+  min-width: 0;
+}
+
+.paid-service-table-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.paid-service-table-heading span {
+  color: #5f6f8a;
+  font-weight: 800;
+}
+
+.paid-service-table-wrap {
+  overflow-x: auto;
+}
+
+.paid-service-table {
+  width: 100%;
+  min-width: 880px;
+  border-collapse: collapse;
+}
+
+.paid-service-table th,
+.paid-service-table td {
+  border-bottom: 1px solid #edf0ea;
+  padding: 16px 14px;
+  color: #0f2c45;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.paid-service-table th {
+  color: #5f6f8a;
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.paid-service-table td strong {
+  display: block;
+  font-size: 16px;
+}
+
+.paid-service-thumb,
+.paid-service-empty-thumb {
+  display: grid;
+  width: 76px;
+  height: 58px;
+  place-items: center;
+  border-radius: 12px;
+  object-fit: cover;
+  background: #f5faf7;
+  color: #667085;
+  font-size: 12px;
+  text-align: center;
+}
+
+.paid-service-row-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.paid-service-row-actions button {
+  min-height: 38px;
+  border: 1px solid #edf0ea;
+  border-radius: 12px;
+  padding: 0 12px;
+  background: #ffffff;
+  color: #0f2c45;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.paid-service-row-actions button.danger {
+  color: #8a1f1f;
+}
+
+.paid-service-empty-row {
+  padding: 22px;
+  color: #667085;
+  text-align: center;
+}
+
+@media (max-width: 1100px) {
+  .paid-service-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .paid-services-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .paid-services-actions {
+    justify-content: flex-start;
+  }
+
+  .paid-services-header h1 {
+    font-size: 36px;
+  }
+
+  .paid-service-card {
+    padding: 20px;
+  }
+
+  .paid-service-form-row {
+    grid-template-columns: 1fr;
+  }
+}

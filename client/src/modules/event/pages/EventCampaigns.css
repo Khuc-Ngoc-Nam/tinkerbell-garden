@@ -1,0 +1,223 @@
+.event-admin-page {
+  display: grid;
+  gap: 24px;
+}
+
+.event-admin {
+  display: grid;
+  grid-template-columns: minmax(340px, 0.85fr) minmax(0, 1.45fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.event-admin-form,
+.event-admin-table {
+  min-width: 0;
+}
+
+.event-time-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.event-radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  border: 1px solid #edf0ea;
+  border-radius: 14px;
+  padding: 14px;
+  background: #fbfcf9;
+}
+
+.event-radio-group legend {
+  padding: 0 8px;
+  color: #667085;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.event-radio-group label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #dfe7df;
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: #fff;
+  color: #344054;
+  font-weight: 800;
+}
+
+.event-radio-group input {
+  width: 16px;
+  min-height: 16px;
+}
+
+.event-rich-editor {
+  overflow: hidden;
+  border: 1px solid #dfe7df;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.event-rich-editor .ql-toolbar {
+  border: 0;
+  border-bottom: 1px solid #edf0ea;
+}
+
+.event-rich-editor .ql-container {
+  min-height: 240px;
+  border: 0;
+  font-family: inherit;
+  font-size: 16px;
+}
+
+.event-rich-editor .ql-editor {
+  min-height: 240px;
+}
+
+.event-admin-table table {
+  min-width: 860px;
+}
+
+.event-registration-table {
+  overflow-x: auto;
+}
+
+.event-registration-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.event-registration-heading h3 {
+  margin: 0;
+}
+
+.event-registration-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: min(460px, 100%);
+}
+
+.event-registration-search input {
+  min-width: 220px;
+}
+
+.event-registration-table table {
+  width: 100%;
+  min-width: 920px;
+  border-collapse: collapse;
+}
+
+.event-registration-table th,
+.event-registration-table td {
+  border-bottom: 1px solid #edf0ea;
+  padding: 12px;
+  text-align: left;
+}
+
+.event-registration-table th {
+  color: #667085;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.event-paid-checkbox {
+  width: 20px;
+  min-height: 20px;
+}
+
+.event-delete-button {
+  color: #b42318;
+  border-color: #fecdca;
+  background: #fff7f6;
+}
+
+.event-delete-button:hover {
+  color: #912018;
+  border-color: #fda29b;
+  background: #fee4e2;
+}
+
+.event-delete-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.event-delete-modal {
+  width: min(440px, 100%);
+  border-radius: 18px;
+  padding: 28px;
+  background: #fff;
+  box-shadow: 0 24px 70px rgba(16, 24, 40, 0.28);
+}
+
+.event-delete-modal h3 {
+  margin: 0;
+  color: #102a43;
+  font-size: 24px;
+  line-height: 1.25;
+}
+
+.event-delete-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.event-delete-confirm-button,
+.event-delete-cancel-button {
+  min-height: 46px;
+  border: 0;
+  border-radius: 12px;
+  padding: 0 22px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.event-delete-confirm-button {
+  color: #fff;
+  background: #d92d20;
+}
+
+.event-delete-cancel-button {
+  color: #344054;
+  background: #eef2f0;
+}
+
+.event-delete-confirm-button:disabled,
+.event-delete-cancel-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+@media (max-width: 980px) {
+  .event-admin {
+    grid-template-columns: 1fr;
+  }
+
+  .event-registration-heading,
+  .event-registration-search {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 640px) {
+  .event-time-row {
+    grid-template-columns: 1fr;
+  }
+}

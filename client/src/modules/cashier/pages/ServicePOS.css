@@ -1,0 +1,208 @@
+.service-pos-page {
+  display: grid;
+  gap: 22px;
+}
+
+.service-pos-header h1 {
+  margin: 0 0 8px;
+  color: #0f2c45;
+  font-size: 34px;
+}
+
+.service-pos-header p {
+  margin: 0;
+  color: #667085;
+}
+
+.service-pos-grid {
+  display: grid;
+  grid-template-columns: minmax(320px, 0.95fr) minmax(0, 1.4fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.service-pos-panel {
+  display: grid;
+  gap: 14px;
+  border: 1px solid #edf0ea;
+  border-radius: 20px;
+  padding: 22px;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(31, 41, 55, 0.08);
+}
+
+.service-pos-panel h2 {
+  margin: 0;
+  color: #0f2c45;
+  font-size: 22px;
+}
+
+.service-pos-customer-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: end;
+}
+
+.service-pos-customer-row label {
+  display: grid;
+  gap: 7px;
+}
+
+.service-pos-customer-row span {
+  color: #667085;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.service-pos-vip {
+  margin: 0;
+  border-radius: 14px;
+  padding: 12px 14px;
+  background: #eaf7ed;
+  color: #217a55;
+  font-weight: 900;
+}
+
+.service-pos-search {
+  min-height: 50px;
+}
+
+.service-pos-results {
+  display: grid;
+  gap: 10px;
+  max-height: 360px;
+  overflow: auto;
+}
+
+.service-pos-results button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid #edf0ea;
+  border-radius: 14px;
+  padding: 12px 14px;
+  background: #fbfcf9;
+  color: #0f2c45;
+  cursor: pointer;
+  text-align: left;
+}
+
+.service-pos-results button span {
+  color: #667085;
+  white-space: nowrap;
+}
+
+.service-pos-cart-panel {
+  grid-column: 1 / -1;
+}
+
+.service-pos-cart-list {
+  display: grid;
+  gap: 10px;
+}
+
+.service-pos-cart-row {
+  display: grid;
+  grid-template-columns: minmax(160px, 1fr) auto auto auto;
+  gap: 12px;
+  align-items: center;
+  border: 1px solid #edf0ea;
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.service-pos-counter {
+  display: inline-grid;
+  grid-template-columns: 34px 38px 34px;
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid #dfe7df;
+  border-radius: 12px;
+}
+
+.service-pos-counter button,
+.service-pos-delete,
+.service-pos-payment-actions button {
+  border: 0;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.service-pos-counter button {
+  min-height: 34px;
+  background: #f5faf7;
+  color: #0f2c45;
+}
+
+.service-pos-counter span {
+  text-align: center;
+  font-weight: 900;
+}
+
+.service-pos-delete {
+  min-height: 38px;
+  border-radius: 12px;
+  padding: 0 12px;
+  background: #fff6f6;
+  color: #8a2d2d;
+}
+
+.service-pos-empty {
+  margin: 0;
+  color: #667085;
+}
+
+.service-pos-checkout {
+  grid-column: 1 / -1;
+}
+
+.service-pos-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  border-radius: 16px;
+  padding: 18px;
+  background: #f5faf7;
+}
+
+.service-pos-total span {
+  color: #667085;
+  font-weight: 800;
+}
+
+.service-pos-total strong {
+  color: #217a55;
+  font-size: 30px;
+}
+
+.service-pos-checkout p {
+  margin: 0;
+  color: #217a55;
+  font-weight: 900;
+}
+
+.service-pos-payment-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.service-pos-payment-actions button {
+  min-height: 52px;
+  border-radius: 15px;
+  background: #8bd094;
+  color: #ffffff;
+  box-shadow: 0 10px 20px rgba(87, 171, 105, 0.22);
+}
+
+@media (max-width: 900px) {
+  .service-pos-grid,
+  .service-pos-customer-row,
+  .service-pos-cart-row,
+  .service-pos-payment-actions {
+    grid-template-columns: 1fr;
+  }
+}

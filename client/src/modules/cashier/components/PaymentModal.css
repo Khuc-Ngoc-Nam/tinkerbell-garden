@@ -1,0 +1,57 @@
+.payment-modal-backdrop {
+  position: fixed;
+  z-index: 130;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.58);
+  backdrop-filter: blur(4px);
+}
+
+.payment-modal {
+  position: relative;
+  display: grid;
+  gap: 18px;
+  width: min(420px, 100%);
+  border: 1px solid #edf0ea;
+  border-radius: 22px;
+  padding: 28px;
+  background: #ffffff;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+  text-align: center;
+}
+
+.payment-modal h2 {
+  margin: 0;
+  color: #0f2c45;
+  font-size: 26px;
+}
+
+.payment-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 38px;
+  min-height: 38px;
+  border: 1px solid #edf0ea;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #0f2c45;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.payment-modal-amount {
+  margin: 0;
+  color: #217a55;
+  font-size: 30px;
+  font-weight: 900;
+}
+
+.payment-modal-qr {
+  justify-self: center;
+  width: min(250px, 100%);
+  border: 1px solid #edf0ea;
+  border-radius: 18px;
+}
