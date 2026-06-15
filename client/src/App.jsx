@@ -6,7 +6,6 @@ import Ticketing from './modules/cashier/pages/Ticketing'
 import ServicePOS from './modules/cashier/pages/ServicePOS'
 import VipManager from './modules/cashier/pages/VipManager'
 import EventCampaigns from './modules/event/pages/EventCampaigns'
-import BookingsList from './modules/event/pages/BookingsList'
 import GamesManager from './modules/facility/pages/GamesManager'
 import Services from './modules/facility/pages/Services'
 import CustomerFacilities from './modules/portal/pages/CustomerFacilities'
@@ -15,17 +14,21 @@ import HomePage from './modules/portal/pages/HomePage'
 import ServiceProducts from './modules/portal/pages/ServiceProducts'
 import VipMembership from './modules/portal/pages/VipMembership'
 import ReportDashboard from './modules/report/pages/ReportDashboard'
+import StaffManagement from './modules/staff/pages/StaffManagement'
 import { request } from './services/api'
 
 const staffViews = [
   { id: 'ticketing', label: 'Thu ngân', roles: ['Manager', 'Cashier'], component: Ticketing },
-  { id: 'service-pos', label: 'Thanh toán', roles: ['Manager', 'Cashier'], component: ServicePOS },
+  { id: 'service-pos', label: 'Thanh toán riêng', roles: ['Manager', 'Cashier'], component: ServicePOS },
   { id: 'vip', label: 'Khách hàng VIP', roles: ['Manager', 'Cashier'], component: VipManager },
-  { id: 'bookings', label: 'Booking', roles: ['Manager', 'Cashier'], component: BookingsList },
   { id: 'facilities', label: 'Khu vui chơi', roles: ['Manager'], component: GamesManager },
   { id: 'services', label: 'Dịch vụ tính phí', roles: ['Manager'], component: Services },
   { id: 'events', label: 'Sự kiện', roles: ['Manager'], component: EventCampaigns },
   { id: 'reports', label: 'Báo cáo & Thống kê', roles: ['Manager'], component: ReportDashboard },
+]
+
+const staffExtraViews = [
+  { id: 'staff-management', label: 'Quản lý nhân viên', roles: ['Manager'], component: StaffManagement },
 ]
 
 function getStaffViews(session) {
@@ -42,7 +45,7 @@ function getStaffViews(session) {
     return [
       { id: 'facilities', label: 'Khu của tôi', roles: ['Cashier'], component: GamesManager },
       { id: 'services', label: 'Dịch vụ tính phí', roles: ['Cashier'], component: Services },
-      { id: 'service-pos', label: 'Thanh toán', roles: ['Cashier'], component: ServicePOS },
+      { id: 'service-pos', label: 'Thanh toán riêng', roles: ['Cashier'], component: ServicePOS },
     ]
   }
 
@@ -239,17 +242,120 @@ function AuthGateway({ onAuthenticated, onCancel }) {
   )
 }
 
-function StaffWorkspace({ session, onLogout }) {
+const blankPasswordForm = {
+  currentPassword: '',
+  newPassword: '',
+  confirmPassword: '',
+}
+
+function ChangePasswordModal({ mode, onClose }) {
+  const [form, setForm] = useState(blankPasswordForm)
+  const [message, setMessage] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  function updateField(event) {
+    setForm((current) => ({ ...current, [event.target.name]: event.target.value }))
+  }
+
+  async function submit(event) {
+    event.preventDefault()
+    setMessage('')
+
+    if (form.newPassword !== form.confirmPassword) {
+      setMessage('Mật khẩu mới và nhập lại mật khẩu mới không khớp')
+      return
+    }
+
+    setLoading(true)
+    try {
+      await request('post', '/auth/change-password', form, mode === 'customer' ? { authScope: 'customer' } : {})
+      setMessage('Đổi mật khẩu thành công.')
+      setForm(blankPasswordForm)
+    } catch (error) {
+      setMessage(error.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div className="change-password-backdrop" onClick={() => !loading && onClose()}>
+      <form className="change-password-modal" onSubmit={submit} onClick={(event) => event.stopPropagation()}>
+        <div className="change-password-head">
+          <h2>Đổi mật khẩu</h2>
+          <button type="button" onClick={onClose} disabled={loading}>X</button>
+        </div>
+
+        {message && <p className="change-password-message">{message}</p>}
+
+        <label className="form-field">
+          <span>Mật khẩu cũ</span>
+          <input
+            name="currentPassword"
+            type="password"
+            autoComplete="current-password"
+            value={form.currentPassword}
+            onChange={updateField}
+            required
+          />
+        </label>
+
+        <label className="form-field">
+          <span>Mật khẩu mới</span>
+          <input
+            name="newPassword"
+            type="password"
+            autoComplete="new-password"
+            value={form.newPassword}
+            onChange={updateField}
+            required
+          />
+        </label>
+
+        <label className="form-field">
+          <span>Nhập lại mật khẩu mới</span>
+          <input
+            name="confirmPassword"
+            type="password"
+            autoComplete="new-password"
+            value={form.confirmPassword}
+            onChange={updateField}
+            required
+          />
+        </label>
+
+        <button className="primary-button full" type="submit" disabled={loading}>
+          {loading ? 'Đang xử lý...' : 'Đổi mật khẩu'}
+        </button>
+      </form>
+    </div>
+  )
+}
+
+function StaffWorkspace({ session, onLogout, requestedView, onRequestedViewHandled }) {
   const availableViews = useMemo(() => getStaffViews(session), [session])
+  const extraViews = useMemo(
+    () => (session.user.role === 'Manager' ? staffExtraViews : []),
+    [session.user.role],
+  )
+  const allViews = useMemo(() => [...availableViews, ...extraViews], [availableViews, extraViews])
   const [activeView, setActiveView] = useState(availableViews[0]?.id || 'ticketing')
-  const current = availableViews.find((view) => view.id === activeView) || availableViews[0]
+  const current = allViews.find((view) => view.id === activeView) || availableViews[0]
   const CurrentComponent = current?.component
 
   useEffect(() => {
-    if (!availableViews.some((view) => view.id === activeView)) {
+    if (!allViews.some((view) => view.id === activeView)) {
       setActiveView(availableViews[0]?.id || '')
     }
-  }, [activeView, availableViews])
+  }, [activeView, allViews, availableViews])
+
+  useEffect(() => {
+    if (!requestedView) return
+    if (allViews.some((view) => view.id === requestedView)) {
+      setActiveView(requestedView)
+    }
+    onRequestedViewHandled()
+  }, [requestedView, allViews, onRequestedViewHandled])
 
   return (
     <div className="staff-layout">
@@ -322,6 +428,9 @@ export default function App() {
   const [staffSession, setStaffSession] = useState(() => readStoredSession('tbg_staff'))
   const [customerSession, setCustomerSession] = useState(() => readStoredSession('tbg_customer'))
   const [customerMenuOpen, setCustomerMenuOpen] = useState(false)
+  const [staffMenuOpen, setStaffMenuOpen] = useState(false)
+  const [changePasswordOpen, setChangePasswordOpen] = useState(false)
+  const [staffRequestedView, setStaffRequestedView] = useState('')
 
   useEffect(() => {
     if (mode === 'auth' || mode === 'public') return undefined
@@ -391,6 +500,8 @@ export default function App() {
     }
     localStorage.removeItem('tbg_active_role')
     setCustomerMenuOpen(false)
+    setStaffMenuOpen(false)
+    setChangePasswordOpen(false)
     setMode('public')
   }
 
@@ -434,7 +545,7 @@ export default function App() {
                     type="button"
                     onClick={() => {
                       setCustomerMenuOpen(false)
-                      alert('Tính năng đang được phát triển')
+                      setChangePasswordOpen(true)
                     }}
                   >
                     Đổi mật khẩu
@@ -447,6 +558,9 @@ export default function App() {
         </div>
 
         <Portal />
+        {changePasswordOpen && (
+          <ChangePasswordModal mode="customer" onClose={() => setChangePasswordOpen(false)} />
+        )}
       </div>
     )
   }
@@ -461,15 +575,55 @@ export default function App() {
           {mode === 'public' ? (
             <button className="ghost-button compact" type="button" onClick={() => setMode('auth')}>Đăng nhập</button>
           ) : (
-            <>
-              <span className="parent-chip">{activeLabel}</span>
-              <button className="ghost-button compact" type="button" onClick={logout}>Đăng xuất</button>
-            </>
+            <div className="portal-account-menu staff-account-menu">
+              <button
+                className="parent-chip parent-chip-button"
+                type="button"
+                onClick={() => setStaffMenuOpen((current) => !current)}
+              >
+                {activeLabel}
+              </button>
+              {staffMenuOpen && (
+                <div className="portal-account-dropdown staff-account-dropdown">
+                  {activeUser?.role === 'Manager' && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setStaffMenuOpen(false)
+                        setStaffRequestedView('staff-management')
+                      }}
+                    >
+                      Quản lý nhân viên
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setStaffMenuOpen(false)
+                      setChangePasswordOpen(true)
+                    }}
+                  >
+                    Đổi mật khẩu
+                  </button>
+                  <button type="button" onClick={logout}>Đăng xuất</button>
+                </div>
+              )}
+            </div>
           )}
         </div>
       </header>
 
-      {mode === 'staff' && staffSession && <StaffWorkspace session={staffSession} onLogout={logout} />}
+      {mode === 'staff' && staffSession && (
+        <StaffWorkspace
+          session={staffSession}
+          onLogout={logout}
+          requestedView={staffRequestedView}
+          onRequestedViewHandled={() => setStaffRequestedView('')}
+        />
+      )}
+      {changePasswordOpen && (
+        <ChangePasswordModal mode="staff" onClose={() => setChangePasswordOpen(false)} />
+      )}
     </div>
   )
 }

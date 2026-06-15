@@ -151,7 +151,7 @@ export default function EventCampaigns() {
       setMessage('Xóa thành công')
       setShowDeleteModal(false)
       setEventToDelete(null)
-      await loadEvents()
+      await Promise.all([loadEvents(), loadRegistrations()])
     } catch (error) {
       setMessage(error.message)
     } finally {
@@ -348,7 +348,7 @@ export default function EventCampaigns() {
 
       <section className="event-registration-table panel table-panel">
         <div className="event-registration-heading">
-          <h3>Danh sách đăng ký online tham dự sự kiện</h3>
+          <h3>Danh sách đăng ký sự kiện online</h3>
           <div className="event-registration-search">
             <input
               value={registrationSearch}
@@ -364,21 +364,21 @@ export default function EventCampaigns() {
           <thead>
             <tr>
               <th>Sự kiện</th>
-              <th>Họ và tên phụ huynh</th>
-              <th>Số lượng bé</th>
-              <th>SĐT</th>
+              <th>Khách hàng</th>
+              <th>Sđt</th>
               <th>Email</th>
-              <th>Đã thanh toán</th>
+              <th>Số tiền phải thanh toán</th>
+              <th>Đã chuyển tiền</th>
             </tr>
           </thead>
           <tbody>
             {registrations.map((registration) => (
               <tr key={registration.id}>
                 <td>{registration.eventName}</td>
-                <td>{registration.parentName}</td>
-                <td>{registration.childrenCount}</td>
+                <td>{registration.customerName || registration.parentName}</td>
                 <td>{registration.phone}</td>
                 <td>{registration.email}</td>
+                <td>{formatCurrency(registration.amount ?? registration.finalAmount)}</td>
                 <td>
                   <input
                     className="event-paid-checkbox"

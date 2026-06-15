@@ -1,0 +1,178 @@
+.staff-management-page {
+  display: grid;
+  gap: 24px;
+}
+
+.staff-management-layout {
+  display: grid;
+  grid-template-columns: minmax(320px, 0.72fr) minmax(0, 1.28fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.staff-management-form,
+.staff-management-table {
+  display: grid;
+  gap: 18px;
+}
+
+.staff-management-form-head,
+.staff-management-table-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.staff-management-form-head h2,
+.staff-management-table-head h2 {
+  margin: 0;
+  color: #0f2c45;
+  font-size: 24px;
+}
+
+.staff-management-form-head span {
+  border-radius: 999px;
+  padding: 7px 11px;
+  background: #f5faf7;
+  color: #217a55;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.staff-management-message {
+  margin: 0;
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: #f5faf7;
+  color: #344054;
+  font-weight: 800;
+}
+
+.staff-password-field {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+.staff-password-field button {
+  min-width: 74px;
+  border: 1px solid #dfe7df;
+  border-radius: 14px;
+  background: #f8faf8;
+  color: #344054;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.staff-management-actions {
+  display: grid;
+  gap: 10px;
+}
+
+.staff-management-table-wrap {
+  overflow-x: auto;
+}
+
+.staff-management-table table {
+  width: 100%;
+  min-width: 820px;
+  border-collapse: collapse;
+}
+
+.staff-management-table th,
+.staff-management-table td {
+  border-bottom: 1px solid #edf0ea;
+  padding: 14px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.staff-management-table th {
+  color: #667085;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.staff-management-row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.staff-management-empty {
+  color: #667085;
+  text-align: center;
+}
+
+.staff-management-modal-backdrop {
+  position: fixed;
+  z-index: 180;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.52);
+  backdrop-filter: blur(4px);
+}
+
+.staff-management-modal {
+  display: grid;
+  gap: 14px;
+  width: min(430px, 100%);
+  border: 1px solid #edf0ea;
+  border-radius: 22px;
+  padding: 28px;
+  background: #fff;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.24);
+}
+
+.staff-management-modal h2,
+.staff-management-modal p {
+  margin: 0;
+}
+
+.staff-management-modal h2 {
+  color: #0f2c45;
+  font-size: 24px;
+}
+
+.staff-management-modal p {
+  color: #667085;
+  line-height: 1.5;
+}
+
+.staff-management-modal-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.danger-button {
+  background: #b42318;
+  box-shadow: 0 10px 20px rgba(180, 35, 24, 0.2);
+}
+
+.danger-button:hover {
+  background: #a21c13;
+}
+
+@media (max-width: 960px) {
+  .staff-management-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .staff-management-form-head,
+  .staff-management-table-head,
+  .staff-management-modal-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .staff-management-form-head,
+  .staff-management-table-head {
+    display: grid;
+  }
+}

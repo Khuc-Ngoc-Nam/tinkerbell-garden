@@ -10,6 +10,7 @@ const eventRoutes = require('./modules/event/event.routes');
 const facilityRoutes = require('./modules/facility/facility.routes');
 const portalRoutes = require('./modules/portal/portal.routes');
 const reportRoutes = require('./modules/report/report.routes');
+const staffRoutes = require('./modules/staff/staff.routes');
 const ticketRoutes = require('./modules/ticket/ticket.routes');
 const { scheduleVipRenewalJob } = require('./jobs/vip-renewal.job');
 
@@ -30,6 +31,7 @@ app.use('/api/customers', customerRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/facilities', facilityRoutes);
 app.use('/api/reports', reportRoutes);
+app.use('/api/staff', staffRoutes);
 app.use('/api/tickets', ticketRoutes);
 
 app.use((req, res) => {

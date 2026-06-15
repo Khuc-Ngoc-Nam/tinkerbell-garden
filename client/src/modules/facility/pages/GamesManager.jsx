@@ -176,6 +176,25 @@ export default function GamesManager({ session }) {
     }
   }
 
+  async function deleteFacility(facility) {
+    if (!isManager) return
+    const confirmed = window.confirm(`Xóa khu vui chơi "${facility.name}"?`)
+    if (!confirmed) return
+
+    setMessage('')
+    try {
+      await request('delete', `/facilities/${facility.id}`)
+      setMessage('Đã xóa khu vui chơi')
+      if (String(selectedFacilityId) === String(facility.id)) {
+        setSelectedFacilityId('')
+        setForm(emptyForm)
+      }
+      await loadData('')
+    } catch (error) {
+      setMessage(error.message)
+    }
+  }
+
   const selectedCashierText = form.cashierIds.length > 0
     ? cashiers
       .filter((cashier) => form.cashierIds.includes(String(cashier.staffId)))
@@ -325,6 +344,7 @@ export default function GamesManager({ session }) {
                   <th>Hình ảnh</th>
                   <th>Thu ngân</th>
                   <th>Vấn đề CSVC</th>
+                  <th>Thao tác</th>
                 </tr>
               </thead>
               <tbody>
@@ -371,6 +391,18 @@ export default function GamesManager({ session }) {
                         : 'Chưa phân công'}
                     </td>
                     <td>{(facility.issues || []).length}</td>
+                    <td>
+                      <div className="facility-action-cell">
+                        <button className="facility-edit-button" type="button" onClick={() => selectFacility(facility.id)}>
+                          Sửa
+                        </button>
+                        {isManager && (
+                          <button className="facility-delete-button" type="button" onClick={() => deleteFacility(facility)}>
+                            Xóa
+                          </button>
+                        )}
+                      </div>
+                    </td>
                   </tr>
                 ))}
               </tbody>

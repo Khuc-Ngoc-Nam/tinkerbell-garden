@@ -38,6 +38,7 @@ export default function Ticketing() {
   const [message, setMessage] = useState('')
   const [vipModalOpen, setVipModalOpen] = useState(false)
   const [vipForm, setVipForm] = useState({ username: '', years: 1 })
+  const [vipCheckStatus, setVipCheckStatus] = useState('idle')
   const [vipMessage, setVipMessage] = useState('')
   const [payment, setPayment] = useState(null)
   const [checkoutPreview, setCheckoutPreview] = useState(null)
@@ -68,6 +69,7 @@ export default function Ticketing() {
   const checkoutGross = Number(checkoutPreview?.grossAmount || 0)
   const checkoutVipDiscount = Number(checkoutPreview?.vipDiscount || 0)
   const checkoutHasPayment = checkoutTotal > 0
+  const vipFormUnlocked = vipCheckStatus === 'valid'
 
   async function lookupCustomer() {
     setMessage('')
@@ -171,6 +173,10 @@ export default function Ticketing() {
   }
 
   function openVipPayment(paymentMethod) {
+    if (!vipFormUnlocked) {
+      setVipMessage('Vui lòng bấm Check Username trước khi thanh toán.')
+      return
+    }
     if (!vipForm.username.trim()) {
       setVipMessage('Vui lòng nhập Username.')
       return
@@ -189,6 +195,7 @@ export default function Ticketing() {
         })
         setVipMessage(`Đã cập nhật VIP cho ${customerData.username || customerData.fullName}`)
         setVipForm({ username: '', years: 1 })
+        setVipCheckStatus('idle')
         setPayment(null)
         await loadData()
         return
@@ -203,6 +210,30 @@ export default function Ticketing() {
       } else {
         setCheckoutMessage(error.message)
       }
+    }
+  }
+
+  function updateVipUsername(event) {
+    setVipForm((current) => ({ ...current, username: event.target.value }))
+    setVipCheckStatus('idle')
+    setVipMessage('')
+  }
+
+  async function checkVipUsername() {
+    const account = vipForm.username.trim()
+    if (!account) {
+      setVipCheckStatus('invalid')
+      setVipMessage('Vui lòng nhập Username.')
+      return
+    }
+
+    try {
+      await request('get', `/customers/lookup?username=${encodeURIComponent(account)}`)
+      setVipCheckStatus('valid')
+      setVipMessage('Username tồn tại. Có thể tiếp tục đăng ký/gia hạn VIP.')
+    } catch {
+      setVipCheckStatus('invalid')
+      setVipMessage('Yêu cầu đăng ký tài khoản trên trang chủ.')
     }
   }
 
@@ -382,35 +413,41 @@ export default function Ticketing() {
 
             <div className="ticketing-vip-form">
               {vipMessage && <p className="notice">{vipMessage}</p>}
-              <label className="form-field">
-                <span>Username</span>
-                <input
-                  name="username"
-                  type="text"
-                  value={vipForm.username}
-                  onChange={(event) => setVipForm((current) => ({ ...current, username: event.target.value }))}
-                  placeholder="Nhập Username"
-                />
-              </label>
+              <div className="ticketing-vip-check-row">
+                <label className="form-field">
+                  <span>Username</span>
+                  <input
+                    name="username"
+                    type="text"
+                    value={vipForm.username}
+                    onChange={updateVipUsername}
+                    placeholder="Nhập Username"
+                  />
+                </label>
+                <button className="ghost-button" type="button" onClick={checkVipUsername}>
+                  Check
+                </button>
+              </div>
               <label className="form-field">
                 <span>Thời gian gia hạn</span>
                 <select
                   name="years"
                   value={vipForm.years}
                   onChange={(event) => setVipForm((current) => ({ ...current, years: Number(event.target.value) }))}
+                  disabled={!vipFormUnlocked}
                 >
                   {vipPackages.map((pack) => (
                     <option value={pack.years} key={pack.years}>{pack.label}</option>
                   ))}
                 </select>
               </label>
-              <div className="ticketing-total-box">
+              <div className={`ticketing-total-box ${!vipFormUnlocked ? 'is-disabled' : ''}`}>
                 <span>Số tiền</span>
                 <strong>{formatCurrency(selectedVipPackage.amount)}</strong>
               </div>
               <div className="ticketing-payment-actions">
-                <button type="button" onClick={() => openVipPayment('Tiền mặt')}>Tiền mặt</button>
-                <button type="button" onClick={() => openVipPayment('Chuyển khoản')}>Chuyển khoản</button>
+                <button type="button" onClick={() => openVipPayment('Tiền mặt')} disabled={!vipFormUnlocked}>Tiền mặt</button>
+                <button type="button" onClick={() => openVipPayment('Chuyển khoản')} disabled={!vipFormUnlocked}>Chuyển khoản</button>
               </div>
             </div>
           </div>
@@ -451,19 +488,6 @@ export default function Ticketing() {
                 <strong>{formatCurrency(checkoutPreview.ticketFee)}</strong>
                 {checkoutPreview.prepaidOnline && <em>Đã thanh toán online</em>}
               </div>
-              <div className="checkout-bill-row">
-                <span>Tiền dịch vụ phát sinh</span>
-                <strong>{formatCurrency(checkoutPreview.serviceAmount)}</strong>
-              </div>
-              {checkoutPreview.services?.length > 0 && (
-                <div className="checkout-service-lines">
-                  {checkoutPreview.services.map((item) => (
-                    <p key={item.id}>
-                      {item.name} x {item.quantity}: {formatCurrency(item.lineTotal)}
-                    </p>
-                  ))}
-                </div>
-              )}
               <div className="checkout-bill-row">
                 <span>Tiền phạt lố giờ</span>
                 <strong>{formatCurrency(checkoutPreview.overtimePenalty)}</strong>

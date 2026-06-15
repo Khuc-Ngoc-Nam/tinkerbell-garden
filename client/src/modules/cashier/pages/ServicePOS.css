@@ -64,6 +64,13 @@
   font-weight: 900;
 }
 
+.service-pos-help {
+  margin: 0;
+  color: #667085;
+  font-size: 14px;
+  font-weight: 700;
+}
+
 .service-pos-search {
   min-height: 50px;
 }
@@ -198,11 +205,115 @@
   box-shadow: 0 10px 20px rgba(87, 171, 105, 0.22);
 }
 
+.service-payment-backdrop {
+  position: fixed;
+  z-index: 140;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.58);
+  backdrop-filter: blur(4px);
+}
+
+.service-payment-modal {
+  position: relative;
+  display: grid;
+  gap: 18px;
+  width: min(440px, 100%);
+  border: 1px solid #edf0ea;
+  border-radius: 22px;
+  padding: 28px;
+  background: #ffffff;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+  text-align: center;
+}
+
+.service-payment-modal h2 {
+  margin: 0;
+  color: #0f2c45;
+  font-size: 26px;
+}
+
+.service-payment-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 38px;
+  min-height: 38px;
+  border: 1px solid #edf0ea;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #0f2c45;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.service-payment-methods {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.service-payment-methods button {
+  min-height: 54px;
+  border: 0;
+  border-radius: 15px;
+  background: #8bd094;
+  color: #ffffff;
+  box-shadow: 0 10px 20px rgba(87, 171, 105, 0.22);
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.service-payment-label {
+  margin: 0;
+  color: #667085;
+  font-weight: 800;
+}
+
+.service-payment-amount {
+  margin: 0;
+  color: #217a55;
+  font-size: 30px;
+  font-weight: 900;
+}
+
+.service-payment-qr {
+  justify-self: center;
+  width: min(250px, 100%);
+  border: 1px solid #edf0ea;
+  border-radius: 18px;
+}
+
+.service-payment-processing {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  padding: 18px 0;
+}
+
+.service-payment-spinner {
+  width: 44px;
+  height: 44px;
+  border: 5px solid #dff3e3;
+  border-top-color: #217a55;
+  border-radius: 999px;
+  animation: service-payment-spin 0.85s linear infinite;
+}
+
+@keyframes service-payment-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @media (max-width: 900px) {
   .service-pos-grid,
   .service-pos-customer-row,
   .service-pos-cart-row,
-  .service-pos-payment-actions {
+  .service-pos-payment-actions,
+  .service-payment-methods {
     grid-template-columns: 1fr;
   }
 }

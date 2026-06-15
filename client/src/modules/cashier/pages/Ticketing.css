@@ -120,6 +120,23 @@
   font-size: 28px;
 }
 
+.ticketing-total-box.is-disabled {
+  background: #e5e7eb;
+  color: #4b5563;
+}
+
+.ticketing-total-box.is-disabled span,
+.ticketing-total-box.is-disabled strong {
+  color: #4b5563;
+}
+
+.ticketing-vip-check-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: end;
+}
+
 .ticketing-payment-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -135,6 +152,14 @@
   box-shadow: 0 10px 20px rgba(87, 171, 105, 0.22);
   cursor: pointer;
   font-weight: 900;
+}
+
+.ticketing-payment-actions button:disabled {
+  background: #374151;
+  box-shadow: none;
+  color: #d1d5db;
+  cursor: not-allowed;
+  opacity: 0.78;
 }
 
 .ticketing-session-card {
@@ -354,6 +379,7 @@
 @media (max-width: 900px) {
   .ticketing-layout,
   .ticketing-lookup-row,
+  .ticketing-vip-check-row,
   .ticketing-tabs,
   .ticketing-payment-actions {
     grid-template-columns: 1fr;

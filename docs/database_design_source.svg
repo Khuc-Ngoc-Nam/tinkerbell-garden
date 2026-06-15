@@ -1,0 +1,644 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="2420" height="2140" viewBox="0 0 2420 2140">
+<defs>
+<filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+<feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.09"/>
+</filter>
+</defs>
+<rect x="0" y="0" width="2420" height="2140" fill="#f8fbf8"/>
+<text x="40" y="42" font-family="Segoe UI, Arial, sans-serif" font-size="26" font-weight="700" fill="#16324f">TinkerBell Garden - Database Design</text>
+<text x="40" y="66" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#526273">Generated from server/database.sql with primary keys, foreign keys, logical links and domain grouping.</text>
+<rect x="40" y="86" width="360" height="1940" rx="20" ry="20" fill="#f4fbf5" stroke="#e3e9eb"/>
+<text x="58" y="112" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#35556d">Personnel &amp; Assignment</text>
+<rect x="420" y="86" width="360" height="1940" rx="20" ry="20" fill="#f2f9fd" stroke="#e3e9eb"/>
+<text x="438" y="112" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#35556d">Customer &amp; VIP</text>
+<rect x="800" y="86" width="360" height="1940" rx="20" ry="20" fill="#fff9ef" stroke="#e3e9eb"/>
+<text x="818" y="112" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#35556d">Ticket &amp; Facility</text>
+<rect x="1180" y="86" width="360" height="1940" rx="20" ry="20" fill="#fff9ef" stroke="#e3e9eb"/>
+<text x="1198" y="112" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#35556d">Paid Services &amp; POS</text>
+<rect x="1560" y="86" width="360" height="1940" rx="20" ry="20" fill="#fff3f4" stroke="#e3e9eb"/>
+<text x="1578" y="112" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#35556d">Event &amp; Registration</text>
+<rect x="1940" y="86" width="420" height="1940" rx="20" ry="20" fill="#f7f4ff" stroke="#e3e9eb"/>
+<text x="1958" y="112" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#35556d">Session, Invoice &amp; Revenue</text>
+<g fill="none" stroke-width="1.6">
+<path d="M 220 364 L 220 331 L 220 331 L 220 298" stroke="#8a97a6"/>
+<path d="M 390 446 L 600 446 L 600 650 L 810 650" stroke="#8a97a6"/>
+<path d="M 220 562 L 220 430 L 220 430 L 220 298" stroke="#8a97a6"/>
+<path d="M 390 608 L 600 608 L 600 650 L 810 650" stroke="#8a97a6"/>
+<path d="M 980 876 L 980 846 L 980 846 L 980 816" stroke="#8a97a6"/>
+<path d="M 1190 168 L 1170 168 L 1170 650 L 1150 650" stroke="#8a97a6"/>
+<path d="M 1190 420 L 1170 420 L 1170 650 L 1150 650" stroke="#8a97a6"/>
+<path d="M 1360 356 L 1360 327 L 1360 327 L 1360 298" stroke="#8a97a6"/>
+<path d="M 1190 704 L 980 704 L 980 150 L 770 150" stroke="#8a97a6"/>
+<path d="M 1190 722 L 790 722 L 790 150 L 390 150" stroke="#8a97a6"/>
+<path d="M 1360 860 L 1360 838 L 1360 838 L 1360 816" stroke="#8a97a6"/>
+<path d="M 1360 860 L 1360 732 L 1360 732 L 1360 604" stroke="#8a97a6"/>
+<path d="M 1740 580 L 1740 565 L 1740 565 L 1740 550" stroke="#8a97a6"/>
+<path d="M 1570 662 L 1170 662 L 1170 150 L 770 150" stroke="#8a97a6"/>
+<path d="M 1740 916 L 1740 733 L 1740 733 L 1740 550" stroke="#8a97a6"/>
+<path d="M 1570 998 L 1170 998 L 1170 150 L 770 150" stroke="#8a97a6"/>
+<path d="M 1740 1290 L 1740 1272 L 1740 1272 L 1740 1254" stroke="#8a97a6"/>
+<path d="M 980 266 L 980 264 L 980 264 L 980 262" stroke="#8a97a6"/>
+<path d="M 810 348 L 790 348 L 790 150 L 770 150" stroke="#8a97a6"/>
+<path d="M 1950 168 L 1360 168 L 1360 150 L 770 150" stroke="#8a97a6"/>
+<path d="M 1950 186 L 1550 186 L 1550 150 L 1150 150" stroke="#8a97a6"/>
+<path d="M 1950 204 L 1930 204 L 1930 150 L 1910 150" stroke="#8a97a6"/>
+<path d="M 1950 222 L 1170 222 L 1170 150 L 390 150" stroke="#8a97a6"/>
+<path d="M 1950 294 L 1930 294 L 1930 626 L 1910 626" stroke="#8a97a6"/>
+<path d="M 1950 312 L 1930 312 L 1930 962 L 1910 962" stroke="#8a97a6"/>
+<path d="M 2120 540 L 2120 509 L 2120 509 L 2120 478" stroke="#8a97a6"/>
+<path d="M 1950 622 L 1740 622 L 1740 402 L 1530 402" stroke="#8a97a6"/>
+<path d="M 2120 740 L 2120 609 L 2120 609 L 2120 478" stroke="#8a97a6"/>
+<path d="M 1950 822 L 1170 822 L 1170 150 L 390 150" stroke="#8a97a6"/>
+<path d="M 600 434 L 600 393 L 600 393 L 600 352" stroke="#8a97a6"/>
+<path d="M 430 516 L 410 516 L 410 150 L 390 150" stroke="#8a97a6"/>
+<path d="M 1950 1100 L 1170 1100 L 1170 150 L 390 150" stroke="#8a97a6"/>
+<path d="M 1950 1118 L 1360 1118 L 1360 150 L 770 150" stroke="#8a97a6"/>
+<path d="M 2120 964 L 2120 721 L 2120 721 L 2120 478" stroke="#8a97a6"/>
+<path d="M 1950 1154 L 1740 1154 L 1740 686 L 1530 686" stroke="#8a97a6"/>
+<path d="M 1950 1172 L 1930 1172 L 1930 962 L 1910 962" stroke="#8a97a6"/>
+<path d="M 1950 1190 L 1360 1190 L 1360 480 L 770 480" stroke="#8a97a6"/>
+<path d="M 600 654 L 600 503 L 600 503 L 600 352" stroke="#8a97a6"/>
+<path d="M 1910 1214 L 1930 1214 L 1930 1010 L 1950 1010" stroke="#d97706" stroke-dasharray="6 5"/>
+</g>
+<g filter="url(#shadow)">
+<rect x="50" y="104" width="340" height="194" rx="14" ry="14" fill="#eef8f0" stroke="#7fbf8e" stroke-width="1.2"/>
+<rect x="50" y="104" width="340" height="34" rx="14" ry="14" fill="#d5f0db" stroke="#7fbf8e" stroke-width="1.2"/>
+<path d="M 50 138 H 390" stroke="#7fbf8e" stroke-width="1.2"/>
+</g>
+<text x="62" y="126" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#193247">Staff</text>
+<text x="62" y="152" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PK StaffID</text>
+<text x="378" y="152" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="62" y="170" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FullName</text>
+<text x="378" y="170" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(120)</text>
+<text x="62" y="188" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Username</text>
+<text x="378" y="188" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(50)</text>
+<text x="62" y="206" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PasswordHash</text>
+<text x="378" y="206" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(255)</text>
+<text x="62" y="224" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Role</text>
+<text x="378" y="224" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">ENUM</text>
+<text x="62" y="242" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">CCCD</text>
+<text x="378" y="242" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(20)?</text>
+<text x="62" y="260" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Active</text>
+<text x="378" y="260" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">BOOLEAN</text>
+<text x="62" y="278" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">CreatedAt</text>
+<text x="378" y="278" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME</text>
+<g filter="url(#shadow)">
+<rect x="50" y="364" width="340" height="122" rx="14" ry="14" fill="#eef8f0" stroke="#7fbf8e" stroke-width="1.2"/>
+<rect x="50" y="364" width="340" height="34" rx="14" ry="14" fill="#d5f0db" stroke="#7fbf8e" stroke-width="1.2"/>
+<path d="M 50 398 H 390" stroke="#7fbf8e" stroke-width="1.2"/>
+</g>
+<text x="62" y="386" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#193247">StaffAreaAssignment</text>
+<text x="62" y="412" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PK/FK StaffID</text>
+<text x="378" y="412" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="62" y="430" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">AreaType</text>
+<text x="378" y="430" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">ENUM</text>
+<text x="62" y="448" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK FacilityID</text>
+<text x="378" y="448" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT?</text>
+<text x="62" y="466" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">UpdatedAt</text>
+<text x="378" y="466" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME</text>
+<g filter="url(#shadow)">
+<rect x="50" y="562" width="340" height="104" rx="14" ry="14" fill="#eef8f0" stroke="#7fbf8e" stroke-width="1.2"/>
+<rect x="50" y="562" width="340" height="34" rx="14" ry="14" fill="#d5f0db" stroke="#7fbf8e" stroke-width="1.2"/>
+<path d="M 50 596 H 390" stroke="#7fbf8e" stroke-width="1.2"/>
+</g>
+<text x="62" y="584" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#193247">FacilityCashier</text>
+<text x="62" y="610" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PK/FK FacilityID</text>
+<text x="378" y="610" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="62" y="628" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PK/FK StaffID</text>
+<text x="378" y="628" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="62" y="646" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">AssignedAt</text>
+<text x="378" y="646" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME</text>
+<g filter="url(#shadow)">
+<rect x="430" y="104" width="340" height="248" rx="14" ry="14" fill="#eef7fb" stroke="#7aa9d5" stroke-width="1.2"/>
+<rect x="430" y="104" width="340" height="34" rx="14" ry="14" fill="#d8ebfb" stroke="#7aa9d5" stroke-width="1.2"/>
+<path d="M 430 138 H 770" stroke="#7aa9d5" stroke-width="1.2"/>
+</g>
+<text x="442" y="126" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#193247">Customer</text>
+<text x="442" y="152" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PK CustomerID</text>
+<text x="758" y="152" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="442" y="170" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FullName</text>
+<text x="758" y="170" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(120)</text>
+<text x="442" y="188" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Email</text>
+<text x="758" y="188" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(120)?</text>
+<text x="442" y="206" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Phone</text>
+<text x="758" y="206" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(20)</text>
+<text x="442" y="224" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PasswordHash</text>
+<text x="758" y="224" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(255)?</text>
+<text x="442" y="242" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">IsVIP</text>
+<text x="758" y="242" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">BOOLEAN</text>
+<text x="442" y="260" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">VIPExpiryDate</text>
+<text x="758" y="260" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME?</text>
+<text x="442" y="278" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">AccumulatedHours</text>
+<text x="758" y="278" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DECIMAL(10,2)</text>
+<text x="442" y="296" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">LoyaltyPoints</text>
+<text x="758" y="296" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="442" y="314" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">CreatedAt</text>
+<text x="758" y="314" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME</text>
+<text x="442" y="332" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">UpdatedAt</text>
+<text x="758" y="332" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME</text>
+<g filter="url(#shadow)">
+<rect x="430" y="434" width="340" height="194" rx="14" ry="14" fill="#eef7fb" stroke="#7aa9d5" stroke-width="1.2"/>
+<rect x="430" y="434" width="340" height="34" rx="14" ry="14" fill="#d8ebfb" stroke="#7aa9d5" stroke-width="1.2"/>
+<path d="M 430 468 H 770" stroke="#7aa9d5" stroke-width="1.2"/>
+</g>
+<text x="442" y="456" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#193247">VIPTransaction</text>
+<text x="442" y="482" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PK VIPTransactionID</text>
+<text x="758" y="482" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="442" y="500" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK CustomerID</text>
+<text x="758" y="500" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="442" y="518" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK StaffID</text>
+<text x="758" y="518" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT?</text>
+<text x="442" y="536" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Amount</text>
+<text x="758" y="536" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DECIMAL(18,2)</text>
+<text x="442" y="554" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Channel</text>
+<text x="758" y="554" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">ENUM</text>
+<text x="442" y="572" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">TransactionType</text>
+<text x="758" y="572" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">ENUM</text>
+<text x="442" y="590" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Status</text>
+<text x="758" y="590" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">ENUM</text>
+<text x="442" y="608" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PaidAt</text>
+<text x="758" y="608" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME</text>
+<g filter="url(#shadow)">
+<rect x="430" y="654" width="340" height="194" rx="14" ry="14" fill="#eef7fb" stroke="#7aa9d5" stroke-width="1.2"/>
+<rect x="430" y="654" width="340" height="34" rx="14" ry="14" fill="#d8ebfb" stroke="#7aa9d5" stroke-width="1.2"/>
+<path d="M 430 688 H 770" stroke="#7aa9d5" stroke-width="1.2"/>
+</g>
+<text x="442" y="676" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#193247">VipPaymentRequest</text>
+<text x="442" y="702" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PK VipRequestID</text>
+<text x="758" y="702" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="442" y="720" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK CustomerID</text>
+<text x="758" y="720" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="442" y="738" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Years</text>
+<text x="758" y="738" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="442" y="756" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Amount</text>
+<text x="758" y="756" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DECIMAL(18,2)</text>
+<text x="442" y="774" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">RequestType</text>
+<text x="758" y="774" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">ENUM</text>
+<text x="442" y="792" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Status</text>
+<text x="758" y="792" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">ENUM</text>
+<text x="442" y="810" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">TransferContent</text>
+<text x="758" y="810" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(255)</text>
+<text x="442" y="828" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">CreatedAt</text>
+<text x="758" y="828" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME</text>
+<g filter="url(#shadow)">
+<rect x="810" y="104" width="340" height="158" rx="14" ry="14" fill="#fff7ea" stroke="#d9ab57" stroke-width="1.2"/>
+<rect x="810" y="104" width="340" height="34" rx="14" ry="14" fill="#fde9bf" stroke="#d9ab57" stroke-width="1.2"/>
+<path d="M 810 138 H 1150" stroke="#d9ab57" stroke-width="1.2"/>
+</g>
+<text x="822" y="126" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#193247">TicketType</text>
+<text x="822" y="152" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PK TypeID</text>
+<text x="1138" y="152" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="822" y="170" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Code</text>
+<text x="1138" y="170" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(30)</text>
+<text x="822" y="188" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">TypeName</text>
+<text x="1138" y="188" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(80)</text>
+<text x="822" y="206" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">BasePrice</text>
+<text x="1138" y="206" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DECIMAL(18,2)</text>
+<text x="822" y="224" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">TimeLimit</text>
+<text x="1138" y="224" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT?</text>
+<text x="822" y="242" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Active</text>
+<text x="1138" y="242" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">BOOLEAN</text>
+<g filter="url(#shadow)">
+<rect x="810" y="266" width="340" height="320" rx="14" ry="14" fill="#fff7ea" stroke="#d9ab57" stroke-width="1.2"/>
+<rect x="810" y="266" width="340" height="34" rx="14" ry="14" fill="#fde9bf" stroke="#d9ab57" stroke-width="1.2"/>
+<path d="M 810 300 H 1150" stroke="#d9ab57" stroke-width="1.2"/>
+</g>
+<text x="822" y="288" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#193247">TicketReservation</text>
+<text x="822" y="314" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PK ReservationID</text>
+<text x="1138" y="314" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="822" y="332" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK TypeID</text>
+<text x="1138" y="332" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="822" y="350" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK CustomerID</text>
+<text x="1138" y="350" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="822" y="368" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">ChildrenCount</text>
+<text x="1138" y="368" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="822" y="386" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">AdultsCount</text>
+<text x="1138" y="386" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="822" y="404" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">VisitDate</text>
+<text x="1138" y="404" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATE</text>
+<text x="822" y="422" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">ChildrenJson</text>
+<text x="1138" y="422" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">JSON?</text>
+<text x="822" y="440" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">SpecialRequests</text>
+<text x="1138" y="440" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">TEXT?</text>
+<text x="822" y="458" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">UnitPrice</text>
+<text x="1138" y="458" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DECIMAL(18,2)</text>
+<text x="822" y="476" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">DiscountAmount</text>
+<text x="1138" y="476" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DECIMAL(18,2)</text>
+<text x="822" y="494" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FinalAmount</text>
+<text x="1138" y="494" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DECIMAL(18,2)</text>
+<text x="822" y="512" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">QRCode</text>
+<text x="1138" y="512" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(80)</text>
+<text x="822" y="530" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Status</text>
+<text x="1138" y="530" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">ENUM</text>
+<text x="822" y="548" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PaidAt</text>
+<text x="1138" y="548" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME?</text>
+<text x="822" y="566" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">CreatedAt</text>
+<text x="1138" y="566" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME</text>
+<g filter="url(#shadow)">
+<rect x="810" y="604" width="340" height="212" rx="14" ry="14" fill="#fff7ea" stroke="#d9ab57" stroke-width="1.2"/>
+<rect x="810" y="604" width="340" height="34" rx="14" ry="14" fill="#fde9bf" stroke="#d9ab57" stroke-width="1.2"/>
+<path d="M 810 638 H 1150" stroke="#d9ab57" stroke-width="1.2"/>
+</g>
+<text x="822" y="626" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#193247">Facility</text>
+<text x="822" y="652" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PK FacilityID</text>
+<text x="1138" y="652" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="822" y="670" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FacilityName</text>
+<text x="1138" y="670" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(120)</text>
+<text x="822" y="688" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Description</text>
+<text x="1138" y="688" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">TEXT?</text>
+<text x="822" y="706" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Status</text>
+<text x="1138" y="706" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">ENUM</text>
+<text x="822" y="724" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">AssetStatus</text>
+<text x="1138" y="724" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">ENUM</text>
+<text x="822" y="742" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Capacity</text>
+<text x="1138" y="742" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="822" y="760" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">ImageURL</text>
+<text x="1138" y="760" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(255)?</text>
+<text x="822" y="778" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">CreatedAt</text>
+<text x="1138" y="778" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME</text>
+<text x="822" y="796" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">UpdatedAt</text>
+<text x="1138" y="796" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME</text>
+<g filter="url(#shadow)">
+<rect x="810" y="876" width="340" height="158" rx="14" ry="14" fill="#fff7ea" stroke="#d9ab57" stroke-width="1.2"/>
+<rect x="810" y="876" width="340" height="34" rx="14" ry="14" fill="#fde9bf" stroke="#d9ab57" stroke-width="1.2"/>
+<path d="M 810 910 H 1150" stroke="#d9ab57" stroke-width="1.2"/>
+</g>
+<text x="822" y="898" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#193247">FacilityIssue</text>
+<text x="822" y="924" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PK IssueID</text>
+<text x="1138" y="924" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="822" y="942" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK FacilityID</text>
+<text x="1138" y="942" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="822" y="960" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Description</text>
+<text x="1138" y="960" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(255)</text>
+<text x="822" y="978" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">IsResolved</text>
+<text x="1138" y="978" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">BOOLEAN</text>
+<text x="822" y="996" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">CreatedAt</text>
+<text x="1138" y="996" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME</text>
+<text x="822" y="1014" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">ResolvedAt</text>
+<text x="1138" y="1014" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME?</text>
+<g filter="url(#shadow)">
+<rect x="1190" y="104" width="340" height="194" rx="14" ry="14" fill="#fff7ea" stroke="#d9ab57" stroke-width="1.2"/>
+<rect x="1190" y="104" width="340" height="34" rx="14" ry="14" fill="#fde9bf" stroke="#d9ab57" stroke-width="1.2"/>
+<path d="M 1190 138 H 1530" stroke="#d9ab57" stroke-width="1.2"/>
+</g>
+<text x="1202" y="126" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#193247">PaidService</text>
+<text x="1202" y="152" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PK ServiceID</text>
+<text x="1518" y="152" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="1202" y="170" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK FacilityID</text>
+<text x="1518" y="170" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="1202" y="188" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">ServiceName</text>
+<text x="1518" y="188" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(120)</text>
+<text x="1202" y="206" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Description</text>
+<text x="1518" y="206" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">TEXT?</text>
+<text x="1202" y="224" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">ImageURL</text>
+<text x="1518" y="224" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(255)?</text>
+<text x="1202" y="242" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Active</text>
+<text x="1518" y="242" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">BOOLEAN</text>
+<text x="1202" y="260" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">CreatedAt</text>
+<text x="1518" y="260" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME</text>
+<text x="1202" y="278" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">UpdatedAt</text>
+<text x="1518" y="278" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME</text>
+<g filter="url(#shadow)">
+<rect x="1190" y="356" width="340" height="248" rx="14" ry="14" fill="#fff7ea" stroke="#d9ab57" stroke-width="1.2"/>
+<rect x="1190" y="356" width="340" height="34" rx="14" ry="14" fill="#fde9bf" stroke="#d9ab57" stroke-width="1.2"/>
+<path d="M 1190 390 H 1530" stroke="#d9ab57" stroke-width="1.2"/>
+</g>
+<text x="1202" y="378" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#193247">Product</text>
+<text x="1202" y="404" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PK ProductID</text>
+<text x="1518" y="404" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="1202" y="422" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK FacilityID</text>
+<text x="1518" y="422" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT?</text>
+<text x="1202" y="440" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK ServiceID</text>
+<text x="1518" y="440" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT?</text>
+<text x="1202" y="458" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">ProductName</text>
+<text x="1518" y="458" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(120)</text>
+<text x="1202" y="476" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Category</text>
+<text x="1518" y="476" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(80)</text>
+<text x="1202" y="494" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Price</text>
+<text x="1518" y="494" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DECIMAL(18,2)</text>
+<text x="1202" y="512" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Stock</text>
+<text x="1518" y="512" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="1202" y="530" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">ImageURL</text>
+<text x="1518" y="530" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(255)?</text>
+<text x="1202" y="548" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Active</text>
+<text x="1518" y="548" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">BOOLEAN</text>
+<text x="1202" y="566" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">CreatedAt</text>
+<text x="1518" y="566" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME</text>
+<text x="1202" y="584" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">UpdatedAt</text>
+<text x="1518" y="584" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME</text>
+<g filter="url(#shadow)">
+<rect x="1190" y="640" width="340" height="176" rx="14" ry="14" fill="#f4f1ff" stroke="#9588d8" stroke-width="1.2"/>
+<rect x="1190" y="640" width="340" height="34" rx="14" ry="14" fill="#e4ddff" stroke="#9588d8" stroke-width="1.2"/>
+<path d="M 1190 674 H 1530" stroke="#9588d8" stroke-width="1.2"/>
+</g>
+<text x="1202" y="662" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#193247">RetailOrder</text>
+<text x="1202" y="688" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PK OrderID</text>
+<text x="1518" y="688" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="1202" y="706" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK CustomerID</text>
+<text x="1518" y="706" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT?</text>
+<text x="1202" y="724" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK StaffID</text>
+<text x="1518" y="724" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT?</text>
+<text x="1202" y="742" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">TotalAmount</text>
+<text x="1518" y="742" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DECIMAL(18,2)</text>
+<text x="1202" y="760" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Source</text>
+<text x="1518" y="760" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">ENUM</text>
+<text x="1202" y="778" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Status</text>
+<text x="1518" y="778" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">ENUM</text>
+<text x="1202" y="796" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">OrderDate</text>
+<text x="1518" y="796" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME</text>
+<g filter="url(#shadow)">
+<rect x="1190" y="860" width="340" height="122" rx="14" ry="14" fill="#f4f1ff" stroke="#9588d8" stroke-width="1.2"/>
+<rect x="1190" y="860" width="340" height="34" rx="14" ry="14" fill="#e4ddff" stroke="#9588d8" stroke-width="1.2"/>
+<path d="M 1190 894 H 1530" stroke="#9588d8" stroke-width="1.2"/>
+</g>
+<text x="1202" y="882" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#193247">RetailOrderDetail</text>
+<text x="1202" y="908" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PK/FK OrderID</text>
+<text x="1518" y="908" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="1202" y="926" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PK/FK ProductID</text>
+<text x="1518" y="926" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="1202" y="944" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Quantity</text>
+<text x="1518" y="944" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="1202" y="962" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">UnitPrice</text>
+<text x="1518" y="962" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DECIMAL(18,2)</text>
+<g filter="url(#shadow)">
+<rect x="1570" y="104" width="340" height="446" rx="14" ry="14" fill="#fff0f1" stroke="#d98790" stroke-width="1.2"/>
+<rect x="1570" y="104" width="340" height="34" rx="14" ry="14" fill="#ffd9de" stroke="#d98790" stroke-width="1.2"/>
+<path d="M 1570 138 H 1910" stroke="#d98790" stroke-width="1.2"/>
+</g>
+<text x="1582" y="126" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#193247">EventCampaign</text>
+<text x="1582" y="152" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PK EventID</text>
+<text x="1898" y="152" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="1582" y="170" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">EventName</text>
+<text x="1898" y="170" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(120)</text>
+<text x="1582" y="188" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">EventType</text>
+<text x="1898" y="188" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(80)</text>
+<text x="1582" y="206" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Description</text>
+<text x="1898" y="206" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">TEXT?</text>
+<text x="1582" y="224" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">ScaleText</text>
+<text x="1898" y="224" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(120)?</text>
+<text x="1582" y="242" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">EstimatedCost</text>
+<text x="1898" y="242" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DECIMAL(18,2)</text>
+<text x="1582" y="260" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Sponsor</text>
+<text x="1898" y="260" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(160)?</text>
+<text x="1582" y="278" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PlannedDate</text>
+<text x="1898" y="278" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATE?</text>
+<text x="1582" y="296" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">StartTime</text>
+<text x="1898" y="296" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">TIME?</text>
+<text x="1582" y="314" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">EndTime</text>
+<text x="1898" y="314" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">TIME?</text>
+<text x="1582" y="332" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">RegistrationDeadline</text>
+<text x="1898" y="332" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATE?</text>
+<text x="1582" y="350" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">DeliveryMode</text>
+<text x="1898" y="350" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">ENUM</text>
+<text x="1582" y="368" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">StartDate</text>
+<text x="1898" y="368" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME</text>
+<text x="1582" y="386" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">EndDate</text>
+<text x="1898" y="386" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME</text>
+<text x="1582" y="404" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">TicketPrice</text>
+<text x="1898" y="404" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DECIMAL(18,2)</text>
+<text x="1582" y="422" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">DiscountRate</text>
+<text x="1898" y="422" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DECIMAL(5,4)</text>
+<text x="1582" y="440" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">OnlineDiscountPercent</text>
+<text x="1898" y="440" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DECIMAL(5,2)</text>
+<text x="1582" y="458" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">MarketingHtml</text>
+<text x="1898" y="458" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">LONGTEXT?</text>
+<text x="1582" y="476" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Capacity</text>
+<text x="1898" y="476" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="1582" y="494" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Status</text>
+<text x="1898" y="494" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">ENUM</text>
+<text x="1582" y="512" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">CreatedAt</text>
+<text x="1898" y="512" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME</text>
+<text x="1582" y="530" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">UpdatedAt</text>
+<text x="1898" y="530" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME</text>
+<g filter="url(#shadow)">
+<rect x="1570" y="580" width="340" height="302" rx="14" ry="14" fill="#fff0f1" stroke="#d98790" stroke-width="1.2"/>
+<rect x="1570" y="580" width="340" height="34" rx="14" ry="14" fill="#ffd9de" stroke="#d98790" stroke-width="1.2"/>
+<path d="M 1570 614 H 1910" stroke="#d98790" stroke-width="1.2"/>
+</g>
+<text x="1582" y="602" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#193247">EventBooking</text>
+<text x="1582" y="628" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PK BookingID</text>
+<text x="1898" y="628" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="1582" y="646" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK EventID</text>
+<text x="1898" y="646" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="1582" y="664" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK CustomerID</text>
+<text x="1898" y="664" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="1582" y="682" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">ChildName</text>
+<text x="1898" y="682" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(120)?</text>
+<text x="1582" y="700" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">ChildAge</text>
+<text x="1898" y="700" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT?</text>
+<text x="1582" y="718" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Quantity</text>
+<text x="1898" y="718" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="1582" y="736" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">UnitPrice</text>
+<text x="1898" y="736" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DECIMAL(18,2)</text>
+<text x="1582" y="754" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">DiscountAmount</text>
+<text x="1898" y="754" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DECIMAL(18,2)</text>
+<text x="1582" y="772" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FinalAmount</text>
+<text x="1898" y="772" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DECIMAL(18,2)</text>
+<text x="1582" y="790" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">BookingDate</text>
+<text x="1898" y="790" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME</text>
+<text x="1582" y="808" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">QRCode</text>
+<text x="1898" y="808" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(80)</text>
+<text x="1582" y="826" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Status</text>
+<text x="1898" y="826" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">ENUM</text>
+<text x="1582" y="844" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PaidAt</text>
+<text x="1898" y="844" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME?</text>
+<text x="1582" y="862" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">CheckedInAt</text>
+<text x="1898" y="862" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME?</text>
+<g filter="url(#shadow)">
+<rect x="1570" y="916" width="340" height="338" rx="14" ry="14" fill="#fff0f1" stroke="#d98790" stroke-width="1.2"/>
+<rect x="1570" y="916" width="340" height="34" rx="14" ry="14" fill="#ffd9de" stroke="#d98790" stroke-width="1.2"/>
+<path d="M 1570 950 H 1910" stroke="#d98790" stroke-width="1.2"/>
+</g>
+<text x="1582" y="938" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#193247">EventRegistration</text>
+<text x="1582" y="964" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PK RegistrationID</text>
+<text x="1898" y="964" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="1582" y="982" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK EventID</text>
+<text x="1898" y="982" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="1582" y="1000" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK CustomerID</text>
+<text x="1898" y="1000" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT?</text>
+<text x="1582" y="1018" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">ParentName</text>
+<text x="1898" y="1018" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(120)</text>
+<text x="1582" y="1036" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Phone</text>
+<text x="1898" y="1036" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(30)</text>
+<text x="1582" y="1054" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Email</text>
+<text x="1898" y="1054" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(120)</text>
+<text x="1582" y="1072" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">TicketCount</text>
+<text x="1898" y="1072" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="1582" y="1090" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">UnitPrice</text>
+<text x="1898" y="1090" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DECIMAL(18,2)</text>
+<text x="1582" y="1108" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">EarlyDiscountPercent</text>
+<text x="1898" y="1108" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DECIMAL(5,2)</text>
+<text x="1582" y="1126" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">VipDiscountPercent</text>
+<text x="1898" y="1126" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DECIMAL(5,2)</text>
+<text x="1582" y="1144" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FinalAmount</text>
+<text x="1898" y="1144" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DECIMAL(18,2)</text>
+<text x="1582" y="1162" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">TransferContent</text>
+<text x="1898" y="1162" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(255)</text>
+<text x="1582" y="1180" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Status</text>
+<text x="1898" y="1180" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">ENUM</text>
+<text x="1582" y="1198" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PaidAt</text>
+<text x="1898" y="1198" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME?</text>
+<text x="1582" y="1216" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">LINK TransactionID</text>
+<text x="1898" y="1216" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT?</text>
+<text x="1582" y="1234" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">SubmittedAt</text>
+<text x="1898" y="1234" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME</text>
+<g filter="url(#shadow)">
+<rect x="1570" y="1290" width="340" height="158" rx="14" ry="14" fill="#fff0f1" stroke="#d98790" stroke-width="1.2"/>
+<rect x="1570" y="1290" width="340" height="34" rx="14" ry="14" fill="#ffd9de" stroke="#d98790" stroke-width="1.2"/>
+<path d="M 1570 1324 H 1910" stroke="#d98790" stroke-width="1.2"/>
+</g>
+<text x="1582" y="1312" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#193247">EventRegistrationChild</text>
+<text x="1582" y="1338" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PK ChildID</text>
+<text x="1898" y="1338" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="1582" y="1356" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK RegistrationID</text>
+<text x="1898" y="1356" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="1582" y="1374" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">RowNo</text>
+<text x="1898" y="1374" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="1582" y="1392" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">ChildName</text>
+<text x="1898" y="1392" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(120)</text>
+<text x="1582" y="1410" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Mobile</text>
+<text x="1898" y="1410" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(30)?</text>
+<text x="1582" y="1428" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">BirthDate</text>
+<text x="1898" y="1428" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATE?</text>
+<g filter="url(#shadow)">
+<rect x="1950" y="104" width="340" height="374" rx="14" ry="14" fill="#f4f1ff" stroke="#9588d8" stroke-width="1.2"/>
+<rect x="1950" y="104" width="340" height="34" rx="14" ry="14" fill="#e4ddff" stroke="#9588d8" stroke-width="1.2"/>
+<path d="M 1950 138 H 2290" stroke="#9588d8" stroke-width="1.2"/>
+</g>
+<text x="1962" y="126" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#193247">PlaySession</text>
+<text x="1962" y="152" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PK SessionID</text>
+<text x="2278" y="152" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="1962" y="170" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK CustomerID</text>
+<text x="2278" y="170" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT?</text>
+<text x="1962" y="188" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK TypeID</text>
+<text x="2278" y="188" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT?</text>
+<text x="1962" y="206" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK EventID</text>
+<text x="2278" y="206" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT?</text>
+<text x="1962" y="224" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK StaffID</text>
+<text x="2278" y="224" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT?</text>
+<text x="1962" y="242" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">GuestName</text>
+<text x="2278" y="242" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(120)?</text>
+<text x="1962" y="260" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Purpose</text>
+<text x="2278" y="260" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">ENUM</text>
+<text x="1962" y="278" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Source</text>
+<text x="2278" y="278" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">ENUM</text>
+<text x="1962" y="296" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK EventBookingID</text>
+<text x="2278" y="296" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT?</text>
+<text x="1962" y="314" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK EventRegistrationID</text>
+<text x="2278" y="314" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT?</text>
+<text x="1962" y="332" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PrepaidOnline</text>
+<text x="2278" y="332" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">BOOLEAN</text>
+<text x="1962" y="350" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">ChildrenCount</text>
+<text x="2278" y="350" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="1962" y="368" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">AdultsCount</text>
+<text x="2278" y="368" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="1962" y="386" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PaymentMethod</text>
+<text x="2278" y="386" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">ENUM?</text>
+<text x="1962" y="404" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PaidAmount</text>
+<text x="2278" y="404" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DECIMAL(18,2)</text>
+<text x="1962" y="422" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">CheckinTime</text>
+<text x="2278" y="422" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME?</text>
+<text x="1962" y="440" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">CheckoutTime</text>
+<text x="2278" y="440" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME?</text>
+<text x="1962" y="458" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Status</text>
+<text x="2278" y="458" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">ENUM</text>
+<g filter="url(#shadow)">
+<rect x="1950" y="540" width="340" height="158" rx="14" ry="14" fill="#f4f1ff" stroke="#9588d8" stroke-width="1.2"/>
+<rect x="1950" y="540" width="340" height="34" rx="14" ry="14" fill="#e4ddff" stroke="#9588d8" stroke-width="1.2"/>
+<path d="M 1950 574 H 2290" stroke="#9588d8" stroke-width="1.2"/>
+</g>
+<text x="1962" y="562" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#193247">SessionService</text>
+<text x="1962" y="588" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PK ServiceLineID</text>
+<text x="2278" y="588" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="1962" y="606" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK SessionID</text>
+<text x="2278" y="606" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="1962" y="624" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK ProductID</text>
+<text x="2278" y="624" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="1962" y="642" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Quantity</text>
+<text x="2278" y="642" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="1962" y="660" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">UnitPrice</text>
+<text x="2278" y="660" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DECIMAL(18,2)</text>
+<text x="1962" y="678" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">LineTotal</text>
+<text x="2278" y="678" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DECIMAL(18,2)</text>
+<g filter="url(#shadow)">
+<rect x="1950" y="740" width="340" height="212" rx="14" ry="14" fill="#f4f1ff" stroke="#9588d8" stroke-width="1.2"/>
+<rect x="1950" y="740" width="340" height="34" rx="14" ry="14" fill="#e4ddff" stroke="#9588d8" stroke-width="1.2"/>
+<path d="M 1950 774 H 2290" stroke="#9588d8" stroke-width="1.2"/>
+</g>
+<text x="1962" y="762" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#193247">TicketInvoice</text>
+<text x="1962" y="788" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PK InvoiceID</text>
+<text x="2278" y="788" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="1962" y="806" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK SessionID</text>
+<text x="2278" y="806" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="1962" y="824" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK StaffID</text>
+<text x="2278" y="824" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT?</text>
+<text x="1962" y="842" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">TicketFee</text>
+<text x="2278" y="842" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DECIMAL(18,2)</text>
+<text x="1962" y="860" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">OvertimePenalty</text>
+<text x="2278" y="860" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DECIMAL(18,2)</text>
+<text x="1962" y="878" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">ServiceAmount</text>
+<text x="2278" y="878" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DECIMAL(18,2)</text>
+<text x="1962" y="896" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">VIPDiscount</text>
+<text x="2278" y="896" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DECIMAL(18,2)</text>
+<text x="1962" y="914" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FinalAmount</text>
+<text x="2278" y="914" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DECIMAL(18,2)</text>
+<text x="1962" y="932" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">CreatedAt</text>
+<text x="2278" y="932" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME</text>
+<g filter="url(#shadow)">
+<rect x="1950" y="964" width="340" height="266" rx="14" ry="14" fill="#f4f1ff" stroke="#9588d8" stroke-width="1.2"/>
+<rect x="1950" y="964" width="340" height="34" rx="14" ry="14" fill="#e4ddff" stroke="#9588d8" stroke-width="1.2"/>
+<path d="M 1950 998 H 2290" stroke="#9588d8" stroke-width="1.2"/>
+</g>
+<text x="1962" y="986" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#193247">Transactions</text>
+<text x="1962" y="1012" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PK TransactionID</text>
+<text x="2278" y="1012" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="1962" y="1030" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Amount</text>
+<text x="2278" y="1030" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DECIMAL(18,2)</text>
+<text x="1962" y="1048" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Type</text>
+<text x="2278" y="1048" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">ENUM</text>
+<text x="1962" y="1066" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PaymentMethod</text>
+<text x="2278" y="1066" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">ENUM</text>
+<text x="1962" y="1084" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Timestamp</text>
+<text x="2278" y="1084" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME</text>
+<text x="1962" y="1102" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK StaffID</text>
+<text x="2278" y="1102" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT?</text>
+<text x="1962" y="1120" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK CustomerID</text>
+<text x="2278" y="1120" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT?</text>
+<text x="1962" y="1138" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK SessionID</text>
+<text x="2278" y="1138" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT?</text>
+<text x="1962" y="1156" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK OrderID</text>
+<text x="2278" y="1156" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT?</text>
+<text x="1962" y="1174" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK EventRegistrationID</text>
+<text x="2278" y="1174" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT?</text>
+<text x="1962" y="1192" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">FK VIPTransactionID</text>
+<text x="2278" y="1192" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT?</text>
+<text x="1962" y="1210" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Note</text>
+<text x="2278" y="1210" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(255)?</text>
+<g filter="url(#shadow)">
+<rect x="1950" y="1324" width="340" height="194" rx="14" ry="14" fill="#f5f7f8" stroke="#9da8b3" stroke-width="1.2"/>
+<rect x="1950" y="1324" width="340" height="34" rx="14" ry="14" fill="#e7edf1" stroke="#9da8b3" stroke-width="1.2"/>
+<path d="M 1950 1358 H 2290" stroke="#9da8b3" stroke-width="1.2"/>
+</g>
+<text x="1962" y="1346" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#193247">EmailOutbox</text>
+<text x="1962" y="1372" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">PK EmailID</text>
+<text x="2278" y="1372" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">INT</text>
+<text x="1962" y="1390" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">RecipientEmail</text>
+<text x="2278" y="1390" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(120)</text>
+<text x="1962" y="1408" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Subject</text>
+<text x="2278" y="1408" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(200)</text>
+<text x="1962" y="1426" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">HtmlBody</text>
+<text x="2278" y="1426" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">TEXT</text>
+<text x="1962" y="1444" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">Status</text>
+<text x="2278" y="1444" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">ENUM</text>
+<text x="1962" y="1462" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">ProviderMessageID</text>
+<text x="2278" y="1462" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">VARCHAR(255)?</text>
+<text x="1962" y="1480" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">ErrorMessage</text>
+<text x="2278" y="1480" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">TEXT?</text>
+<text x="1962" y="1498" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#243746">CreatedAt</text>
+<text x="2278" y="1498" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#5b6e7c">DATETIME</text>
+<g>
+<rect x="40" y="2044" width="1120" height="56" rx="12" fill="#ffffff" stroke="#d9e2e8"/>
+<text x="58" y="2078" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#344054">Legend: PK = primary key, FK = foreign key, LINK = logical reference without FK constraint. Dotted orange line = logical relation only.</text>
+</g>
+</svg>

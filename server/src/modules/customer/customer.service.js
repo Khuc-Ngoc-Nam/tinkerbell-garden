@@ -101,6 +101,7 @@ async function applyVipRenewal(connection, customer, {
   channel = 'Counter',
   staffId = null,
   paymentMethod = 'Tiền mặt',
+  recordRevenue = channel === 'Counter',
 }) {
   const [freshRows] = await connection.query(`SELECT * FROM Customer WHERE CustomerID = ? FOR UPDATE`, [
     customer.CustomerID,
@@ -126,7 +127,7 @@ async function applyVipRenewal(connection, customer, {
     [customer.CustomerID, staffId, amount, channel, fresh.IsVIP ? 'Renew' : 'Register'],
   );
 
-  if (channel === 'Counter') {
+  if (recordRevenue) {
     await recordTransaction(connection, {
       amount,
       type: 'VIP',
@@ -137,6 +138,23 @@ async function applyVipRenewal(connection, customer, {
       note: `${years} năm`,
     });
   }
+}
+
+function mapVipPaymentRequest(row) {
+  return {
+    id: row.VipRequestID,
+    customerId: row.CustomerID,
+    customerName: row.FullName,
+    username: row.Email || row.Phone,
+    email: row.Email,
+    phone: row.Phone,
+    years: Number(row.Years || 1),
+    amount: Number(row.Amount || 0),
+    requestType: row.RequestType,
+    status: row.Status,
+    transferContent: row.TransferContent,
+    createdAt: row.CreatedAt,
+  };
 }
 
 async function registerOrRenewVip({ fullName, email, phone, password, channel = 'Counter', staffId = null, years = 1 }) {
@@ -227,6 +245,73 @@ async function createVipPaymentRequest({ customerId, years = 1 }) {
   };
 }
 
+async function listVipPaymentRequests({ search = '' } = {}) {
+  const params = [];
+  let where = `WHERE vpr.Status = 'PendingReview'`;
+  if (search) {
+    where += ` AND (c.Email LIKE ? OR c.Phone LIKE ? OR c.FullName LIKE ?)`;
+    params.push(`%${search}%`, `%${search}%`, `%${search}%`);
+  }
+
+  const [rows] = await db.query(
+    `SELECT vpr.*, c.FullName, c.Email, c.Phone
+     FROM VipPaymentRequest vpr
+     JOIN Customer c ON c.CustomerID = vpr.CustomerID
+     ${where}
+     ORDER BY vpr.CreatedAt ASC`,
+    params,
+  );
+  return rows.map(mapVipPaymentRequest);
+}
+
+async function approveVipPaymentRequest({ requestId, staffId = null }) {
+  const connection = await db.getConnection();
+  try {
+    await connection.beginTransaction();
+    const [rows] = await connection.query(
+      `SELECT vpr.*, c.*
+       FROM VipPaymentRequest vpr
+       JOIN Customer c ON c.CustomerID = vpr.CustomerID
+       WHERE vpr.VipRequestID = ?
+       FOR UPDATE`,
+      [requestId],
+    );
+    const row = rows[0];
+    if (!row) throw notFound('VIP payment request not found');
+    if (row.Status !== 'PendingReview') throw badRequest('VIP payment request has already been processed');
+
+    const customer = {
+      CustomerID: row.CustomerID,
+      FullName: row.FullName,
+      Email: row.Email,
+      Phone: row.Phone,
+      IsVIP: row.IsVIP,
+      VIPExpiryDate: row.VIPExpiryDate,
+    };
+    await applyVipRenewal(connection, customer, {
+      years: Number(row.Years || 1),
+      amount: Number(row.Amount || 0),
+      channel: 'Online',
+      staffId,
+      paymentMethod: 'Chuyển khoản',
+      recordRevenue: true,
+    });
+    await connection.query(
+      `UPDATE VipPaymentRequest
+       SET Status = 'Approved'
+       WHERE VipRequestID = ?`,
+      [requestId],
+    );
+    await connection.commit();
+    return getCustomer(row.CustomerID);
+  } catch (error) {
+    await connection.rollback();
+    throw error;
+  } finally {
+    connection.release();
+  }
+}
+
 async function getCustomerBookings(customerId) {
   const [rows] = await db.query(
     `SELECT eb.BookingID, eb.QRCode, eb.Status, eb.Quantity, eb.FinalAmount,
@@ -244,11 +329,13 @@ module.exports = {
   VIP_ANNUAL_FEE,
   VIP_PACKAGES,
   createVipPaymentRequest,
+  approveVipPaymentRequest,
   findCustomerByUsername,
   findOrCreateCustomer,
   getCustomer,
   getCustomerBookings,
   listCustomers,
+  listVipPaymentRequests,
   listVipCustomers,
   lookupCustomerByUsername,
   registerOrRenewVip,

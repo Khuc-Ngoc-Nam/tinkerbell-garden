@@ -151,51 +151,58 @@ async function dashboardData() {
   );
 
   const [gatePayments] = await db.query(
-    `SELECT t.TransactionID AS id, t.SessionID AS sessionId, t.Amount AS amount,
-            t.PaymentMethod AS paymentMethod, t.Timestamp AS paidAt,
+    `SELECT ps.SessionID AS id, ps.SessionID AS sessionId,
+            COALESCE(SUM(CASE WHEN t.Type = 'Vé vào cửa' THEN t.Amount ELSE 0 END), 0) AS ticketAmount,
+            COALESCE(SUM(CASE WHEN t.Type = 'Phạt lố giờ' THEN t.Amount ELSE 0 END), 0) AS overtimeAmount,
+            COALESCE(SUM(t.Amount), 0) AS amount,
+            MAX(t.PaymentMethod) AS paymentMethod,
+            MAX(t.Timestamp) AS paidAt,
             ps.ChildrenCount AS quantity, ps.GuestName,
             c.FullName, c.Email AS Username, c.Phone,
             tt.TypeID AS ticketTypeId, tt.TypeName AS ticketType
-     FROM Transactions t
-     JOIN PlaySession ps ON ps.SessionID = t.SessionID
+     FROM PlaySession ps
+     JOIN Transactions t ON t.SessionID = ps.SessionID
+       AND t.Type IN ('Vé vào cửa', 'Phạt lố giờ')
      LEFT JOIN Customer c ON c.CustomerID = ps.CustomerID
      LEFT JOIN TicketType tt ON tt.TypeID = ps.TypeID
-     WHERE t.Type = 'Vé vào cửa'
-     ORDER BY t.Timestamp DESC, t.TransactionID DESC`,
+     WHERE ps.Purpose = 'Play'
+     GROUP BY ps.SessionID, ps.ChildrenCount, ps.GuestName, c.FullName, c.Email, c.Phone, tt.TypeID, tt.TypeName
+     ORDER BY paidAt DESC, ps.SessionID DESC`,
   );
 
   const [servicePayments] = await db.query(
-    `SELECT ss.ServiceLineID AS id, ss.SessionID AS sessionId, ss.ProductID AS productId,
-            ss.Quantity AS quantity, ss.UnitPrice AS unitPrice, ss.LineTotal AS lineTotal,
-            COALESCE(service_tx.Amount, 0) AS servicePaidAmount,
-            service_tx.PaymentMethod AS paymentMethod,
-            service_tx.PaidAt AS paidAt,
-            service_total.ServiceGross AS sessionServiceGross,
+    `SELECT CONCAT(rod.OrderID, '-', rod.ProductID) AS id,
+            ro.OrderID AS orderId,
+            t.TransactionID AS transactionId,
+            t.SessionID AS sessionId,
+            rod.ProductID AS productId,
+            rod.Quantity AS quantity,
+            rod.UnitPrice AS unitPrice,
+            (rod.Quantity * rod.UnitPrice) AS lineTotal,
+            order_total.OrderGross AS orderGross,
+            COALESCE(t.Amount, ro.TotalAmount, 0) AS servicePaidAmount,
+            t.PaymentMethod AS paymentMethod,
+            COALESCE(t.Timestamp, ro.OrderDate) AS paidAt,
             ps.GuestName, ps.ChildrenCount,
             c.FullName, c.Email AS Username, c.Phone,
             tt.TypeID AS ticketTypeId, tt.TypeName AS ticketType,
             f.FacilityID AS facilityId, f.FacilityName AS facilityName,
             p.ProductName AS productName
-     FROM SessionService ss
-     JOIN PlaySession ps ON ps.SessionID = ss.SessionID
-     JOIN Product p ON p.ProductID = ss.ProductID
+     FROM RetailOrderDetail rod
+     JOIN RetailOrder ro ON ro.OrderID = rod.OrderID
+     JOIN Product p ON p.ProductID = rod.ProductID
      LEFT JOIN Facility f ON f.FacilityID = p.FacilityID
-     LEFT JOIN Customer c ON c.CustomerID = ps.CustomerID
+     LEFT JOIN Transactions t ON t.OrderID = ro.OrderID AND t.Type = 'Dịch vụ lẻ'
+     LEFT JOIN PlaySession ps ON ps.SessionID = t.SessionID
+     LEFT JOIN Customer c ON c.CustomerID = ro.CustomerID
      LEFT JOIN TicketType tt ON tt.TypeID = ps.TypeID
      LEFT JOIN (
-       SELECT SessionID, SUM(Amount) AS Amount, MAX(PaymentMethod) AS PaymentMethod, MAX(Timestamp) AS PaidAt
-       FROM Transactions
-       WHERE Type = 'Dịch vụ lẻ'
-       GROUP BY SessionID
-     ) service_tx ON service_tx.SessionID = ss.SessionID
-     LEFT JOIN (
-       SELECT SessionID, SUM(LineTotal) AS ServiceGross
-       FROM SessionService
-       GROUP BY SessionID
-     ) service_total ON service_total.SessionID = ss.SessionID
-     WHERE ps.Status = 'Completed'
-       AND service_tx.Amount IS NOT NULL
-     ORDER BY service_tx.PaidAt DESC, ss.ServiceLineID DESC`,
+       SELECT OrderID, SUM(Quantity * UnitPrice) AS OrderGross
+       FROM RetailOrderDetail
+       GROUP BY OrderID
+     ) order_total ON order_total.OrderID = rod.OrderID
+     WHERE ro.Source = 'Service' AND ro.Status = 'Paid'
+     ORDER BY paidAt DESC, ro.OrderID DESC`,
   );
 
   const [playHistory] = await db.query(
@@ -206,9 +213,12 @@ async function dashboardData() {
               WHEN ps.Purpose = 'Event' AND ec.EventID IS NOT NULL THEN TIMESTAMPDIFF(MINUTE, ec.StartDate, ec.EndDate)
               ELSE tt.TimeLimit
             END AS timeLimit,
-            COALESCE(penalty_tx.Amount, 0) AS overtimeAmount,
-            penalty_tx.PaymentMethod AS paymentMethod,
-            penalty_tx.PaidAt AS paidAt,
+            COALESCE(gate_tx.TicketAmount, 0) AS ticketAmount,
+            COALESCE(gate_tx.OvertimeAmount, 0) AS overtimeAmount,
+            COALESCE(service_tx.ServiceAmount, 0) AS serviceAmount,
+            COALESCE(gate_tx.Amount, 0) + COALESCE(service_tx.ServiceAmount, 0) AS totalAmount,
+            COALESCE(gate_tx.PaymentMethod, service_tx.PaymentMethod) AS paymentMethod,
+            COALESCE(gate_tx.PaidAt, service_tx.PaidAt, ps.CheckoutTime) AS paidAt,
             c.FullName, c.Email AS Username, c.Phone,
             tt.TypeID AS ticketTypeId,
             CASE
@@ -220,11 +230,22 @@ async function dashboardData() {
      LEFT JOIN TicketType tt ON tt.TypeID = ps.TypeID
      LEFT JOIN EventCampaign ec ON ec.EventID = ps.EventID
      LEFT JOIN (
-       SELECT SessionID, SUM(Amount) AS Amount, MAX(PaymentMethod) AS PaymentMethod, MAX(Timestamp) AS PaidAt
+       SELECT SessionID,
+              SUM(CASE WHEN Type = 'Vé vào cửa' THEN Amount ELSE 0 END) AS TicketAmount,
+              SUM(CASE WHEN Type = 'Phạt lố giờ' THEN Amount ELSE 0 END) AS OvertimeAmount,
+              SUM(Amount) AS Amount,
+              MAX(PaymentMethod) AS PaymentMethod,
+              MAX(Timestamp) AS PaidAt
        FROM Transactions
-       WHERE Type = 'Phạt lố giờ'
+       WHERE Type IN ('Vé vào cửa', 'Phạt lố giờ')
        GROUP BY SessionID
-     ) penalty_tx ON penalty_tx.SessionID = ps.SessionID
+     ) gate_tx ON gate_tx.SessionID = ps.SessionID
+     LEFT JOIN (
+       SELECT SessionID, SUM(Amount) AS ServiceAmount, MAX(PaymentMethod) AS PaymentMethod, MAX(Timestamp) AS PaidAt
+       FROM Transactions
+       WHERE Type = 'Dịch vụ lẻ' AND SessionID IS NOT NULL
+       GROUP BY SessionID
+     ) service_tx ON service_tx.SessionID = ps.SessionID
      WHERE ps.Status = 'Completed'
      ORDER BY ps.CheckoutTime DESC, ps.SessionID DESC`,
   );
@@ -242,15 +263,19 @@ async function dashboardData() {
     `SELECT t.TransactionID AS id, t.Amount AS amount, t.PaymentMethod AS paymentMethod,
             t.Timestamp AS paidAt,
             COALESCE(ec.EventName, ec_session.EventName, t.Note) AS eventName,
+            COALESCE(ps_direct.SessionID, ps_registration.SessionID) AS sessionId,
+            COALESCE(ps_direct.CheckinTime, ps_registration.CheckinTime) AS checkinTime,
+            COALESCE(ps_direct.CheckoutTime, ps_registration.CheckoutTime) AS checkoutTime,
             er.ParentName, er.Phone AS RegistrationPhone, er.Email AS RegistrationEmail,
             c.FullName, c.Email AS Username, c.Phone,
-            ps.GuestName
+            COALESCE(ps_direct.GuestName, ps_registration.GuestName) AS GuestName
      FROM Transactions t
      LEFT JOIN EventRegistration er ON er.RegistrationID = t.EventRegistrationID
      LEFT JOIN EventCampaign ec ON ec.EventID = er.EventID
-     LEFT JOIN PlaySession ps ON ps.SessionID = t.SessionID
-     LEFT JOIN EventCampaign ec_session ON ec_session.EventID = ps.EventID
-     LEFT JOIN Customer c ON c.CustomerID = COALESCE(t.CustomerID, er.CustomerID, ps.CustomerID)
+     LEFT JOIN PlaySession ps_direct ON ps_direct.SessionID = t.SessionID
+     LEFT JOIN PlaySession ps_registration ON ps_registration.EventRegistrationID = er.RegistrationID
+     LEFT JOIN EventCampaign ec_session ON ec_session.EventID = COALESCE(ps_direct.EventID, ps_registration.EventID)
+     LEFT JOIN Customer c ON c.CustomerID = COALESCE(t.CustomerID, er.CustomerID, ps_direct.CustomerID, ps_registration.CustomerID)
      WHERE t.Type = 'Sự kiện'
      ORDER BY t.Timestamp DESC, t.TransactionID DESC`,
   );
@@ -273,17 +298,21 @@ async function dashboardData() {
       ticketType: row.ticketType || 'Vé vào cửa',
       quantity: toNumber(row.quantity),
       paymentMethod: row.paymentMethod,
+      ticketAmount: toNumber(row.ticketAmount),
+      overtimeAmount: toNumber(row.overtimeAmount),
       amount: toNumber(row.amount),
       paidAt: row.paidAt,
     })),
     servicePayments: servicePayments.map((row) => {
       const lineTotal = toNumber(row.lineTotal);
-      const serviceGross = toNumber(row.sessionServiceGross);
+      const serviceGross = toNumber(row.orderGross);
       const servicePaidAmount = toNumber(row.servicePaidAmount);
       const ratio = serviceGross > 0 && servicePaidAmount > 0 ? servicePaidAmount / serviceGross : 1;
       return {
-        id: Number(row.id),
-        sessionId: Number(row.sessionId),
+        id: String(row.id),
+        orderId: Number(row.orderId),
+        transactionId: row.transactionId ? Number(row.transactionId) : null,
+        sessionId: row.sessionId ? Number(row.sessionId) : null,
         customerName: mapCustomerName(row),
         username: mapUsername(row),
         ticketTypeId: row.ticketTypeId ? Number(row.ticketTypeId) : null,
@@ -315,7 +344,10 @@ async function dashboardData() {
         overtimeMinutes,
         overtimeBlocks: overtimeMinutes > 0 ? Math.ceil(overtimeMinutes / 30) : 0,
         paymentMethod: row.paymentMethod,
-        amount: toNumber(row.overtimeAmount),
+        ticketAmount: toNumber(row.ticketAmount),
+        overtimeAmount: toNumber(row.overtimeAmount),
+        serviceAmount: toNumber(row.serviceAmount),
+        amount: toNumber(row.totalAmount),
         paidAt: row.paidAt || row.checkoutTime,
       };
     }),
@@ -337,6 +369,9 @@ async function dashboardData() {
       }),
       username: row.Username || row.RegistrationEmail || row.RegistrationPhone || '',
       eventName: row.eventName || 'Sự kiện',
+      sessionId: row.sessionId ? Number(row.sessionId) : null,
+      checkinTime: row.checkinTime,
+      checkoutTime: row.checkoutTime,
       paymentMethod: row.paymentMethod,
       amount: toNumber(row.amount),
       paidAt: row.paidAt,

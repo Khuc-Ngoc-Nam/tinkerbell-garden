@@ -124,7 +124,7 @@ export default function ReportDashboard() {
   )), [dashboard.servicePayments, filterFns])
 
   const serviceSessionIds = useMemo(
-    () => new Set(serviceRowsForCrossFilter.map((row) => row.sessionId)),
+    () => new Set(serviceRowsForCrossFilter.map((row) => row.sessionId).filter(Boolean)),
     [serviceRowsForCrossFilter],
   )
 
@@ -139,7 +139,7 @@ export default function ReportDashboard() {
   const servicePayments = useMemo(() => {
     const grouped = serviceRowsForCrossFilter.reduce((map, row) => {
       const key = [
-        row.sessionId,
+        row.orderId || row.sessionId || row.id,
         row.customerName,
         row.username,
         row.facilityId,
@@ -183,19 +183,24 @@ export default function ReportDashboard() {
   )), [dashboard.eventTransactions, filterFns])
 
   const totals = useMemo(() => {
-    const ticketRevenue = sumRows(gatePayments, 'amount')
-    const overtimeRevenue = sumRows(playHistory, 'amount')
+    const ticketRevenue = sumRows(gatePayments, 'ticketAmount')
+    const gateRevenue = sumRows(gatePayments, 'amount')
+    const overtimeRevenue = sumRows(playHistory, 'overtimeAmount')
+    const playHistoryRevenue = sumRows(playHistory, 'amount')
     const serviceRevenue = sumRows(servicePayments, 'amount')
     const vipRevenue = sumRows(vipTransactions, 'amount')
     const eventRevenue = sumRows(eventTransactions, 'amount')
     return {
       gateQuantity: sumRows(gatePayments, 'quantity'),
-      gateRevenue: ticketRevenue,
+      gateTicketRevenue: ticketRevenue,
+      gateRevenue,
       serviceQuantity: sumRows(servicePayments, 'quantity'),
       serviceRevenue,
       overtimeRevenue,
+      playHistoryRevenue,
       vipRevenue,
       eventRevenue,
+      eventCustomerCount: eventTransactions.length,
       totalRevenue: ticketRevenue + overtimeRevenue + serviceRevenue + vipRevenue + eventRevenue,
     }
   }, [eventTransactions, gatePayments, playHistory, servicePayments, vipTransactions])
@@ -328,7 +333,7 @@ export default function ReportDashboard() {
             </thead>
             <tbody>
               {servicePayments.map((row) => (
-                <tr key={`${row.sessionId}-${row.productId}-${row.paymentMethod}`}>
+                <tr key={`${row.orderId || row.sessionId || row.id}-${row.productId}-${row.paymentMethod}`}>
                   <td>
                     <strong>{row.customerName}</strong>
                     {row.username && <span>{row.username}</span>}
@@ -390,8 +395,48 @@ export default function ReportDashboard() {
             </tbody>
             <tfoot>
               <tr>
-                <td colSpan="5">Tổng số tiền phạt</td>
-                <td>Tổng doanh thu: {formatCurrency(totals.overtimeRevenue)}</td>
+                <td colSpan="5">Tổng số tiền</td>
+                <td>Tổng doanh thu: {formatCurrency(totals.playHistoryRevenue)}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </section>
+
+      <section className="report-table-card">
+        <h2>Thống kê doanh thu sự kiện</h2>
+        <div className="report-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Sự kiện</th>
+                <th>Khách hàng</th>
+                <th>Giờ vào</th>
+                <th>Giờ ra</th>
+                <th>Số tiền</th>
+              </tr>
+            </thead>
+            <tbody>
+              {eventTransactions.map((row) => (
+                <tr key={row.id}>
+                  <td>{row.eventName}</td>
+                  <td>
+                    <strong>{row.customerName}</strong>
+                    {row.username && <span>{row.username}</span>}
+                  </td>
+                  <td>{row.checkinTime ? formatDate(row.checkinTime) : 'Chưa check-in'}</td>
+                  <td>{row.checkoutTime ? formatDate(row.checkoutTime) : 'Chưa check-out'}</td>
+                  <td>{formatCurrency(row.amount)}</td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot>
+              <tr>
+                <td>Tổng</td>
+                <td>Tổng khách hàng: {totals.eventCustomerCount}</td>
+                <td />
+                <td />
+                <td>Tổng số tiền: {formatCurrency(totals.eventRevenue)}</td>
               </tr>
             </tfoot>
           </table>
@@ -414,7 +459,7 @@ export default function ReportDashboard() {
             </thead>
             <tbody>
               <tr>
-                <td>{formatCurrency(totals.gateRevenue)}</td>
+                <td>{formatCurrency(totals.gateTicketRevenue)}</td>
                 <td>{formatCurrency(totals.overtimeRevenue)}</td>
                 <td>{formatCurrency(totals.serviceRevenue)}</td>
                 <td>{formatCurrency(totals.vipRevenue)}</td>

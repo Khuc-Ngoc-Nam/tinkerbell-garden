@@ -11,6 +11,11 @@ const listVipCustomers = asyncHandler(async (req, res) => {
   res.json({ success: true, data });
 });
 
+const listVipPaymentRequests = asyncHandler(async (req, res) => {
+  const data = await customerService.listVipPaymentRequests(req.query);
+  res.json({ success: true, data });
+});
+
 const lookupCustomer = asyncHandler(async (req, res) => {
   const data = await customerService.lookupCustomerByUsername(req.query.username);
   res.json({ success: true, data });
@@ -48,11 +53,21 @@ const registerVipAtCounter = asyncHandler(async (req, res) => {
   res.status(201).json({ success: true, data });
 });
 
+const approveVipPaymentRequest = asyncHandler(async (req, res) => {
+  const data = await customerService.approveVipPaymentRequest({
+    requestId: req.params.id,
+    staffId: req.user?.sub || null,
+  });
+  res.json({ success: true, data });
+});
+
 module.exports = {
+  approveVipPaymentRequest,
   getCustomer,
   getMyProfile,
   listCustomers,
   listVipCustomers,
+  listVipPaymentRequests,
   lookupCustomer,
   registerVip,
   registerVipAtCounter,

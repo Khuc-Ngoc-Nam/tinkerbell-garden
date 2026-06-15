@@ -110,17 +110,41 @@ function mapBooking(row) {
 function mapOnlineRegistration(row) {
   return {
     id: row.RegistrationID,
+    source: 'registration',
     eventId: row.EventID,
     eventName: row.EventName,
+    customerName: row.ParentName,
     parentName: row.ParentName,
     childrenCount: Number(row.TicketCount || 0),
     phone: row.Phone,
     email: row.Email,
+    amount: Number(row.FinalAmount || 0),
     finalAmount: Number(row.FinalAmount || 0),
     status: row.Status,
     isPaid: row.Status === 'Confirmed',
     paidAt: row.PaidAt,
     submittedAt: row.SubmittedAt,
+  };
+}
+
+function mapLegacyBookingRegistration(row) {
+  return {
+    id: `booking-${row.BookingID}`,
+    source: 'booking',
+    eventId: row.EventID,
+    eventName: row.EventName,
+    customerName: row.FullName,
+    parentName: row.FullName,
+    childrenCount: Number(row.Quantity || 1),
+    phone: row.Phone,
+    email: row.Email,
+    amount: Number(row.FinalAmount || 0),
+    finalAmount: Number(row.FinalAmount || 0),
+    status: row.Status,
+    isPaid: row.Status === 'Paid' || row.Status === 'CheckedIn',
+    paidAt: row.PaidAt,
+    submittedAt: row.BookingDate,
+    qrCode: row.QRCode,
   };
 }
 
@@ -152,6 +176,87 @@ async function ensureGateSessionForEventRegistration(connection, registration) {
   return result.insertId;
 }
 
+async function ensureGateSessionForEventBooking(connection, booking) {
+  const [existing] = await connection.query(
+    `SELECT SessionID
+     FROM PlaySession
+     WHERE EventBookingID = ?
+     LIMIT 1`,
+    [booking.BookingID],
+  );
+  if (existing[0]) return existing[0].SessionID;
+
+  const [result] = await connection.query(
+    `INSERT INTO PlaySession
+      (CustomerID, TypeID, EventID, StaffID, GuestName, Purpose, Source,
+       EventBookingID, EventRegistrationID, PrepaidOnline, ChildrenCount, AdultsCount,
+       PaymentMethod, PaidAmount, CheckinTime, Status)
+     VALUES (?, NULL, ?, NULL, ?, 'Event', 'EventBooking',
+       ?, NULL, TRUE, ?, 0, NULL, 0, NULL, 'Pending')`,
+    [
+      booking.CustomerID || null,
+      booking.EventID,
+      booking.FullName || booking.ChildName || 'Khách sự kiện',
+      booking.BookingID,
+      Math.max(1, Number(booking.Quantity || 1)),
+    ],
+  );
+  return result.insertId;
+}
+
+async function cleanupEndedEventRegistrations(connection = db) {
+  const [registrationRows] = await connection.query(
+    `SELECT er.RegistrationID
+     FROM EventRegistration er
+     JOIN EventCampaign ec ON ec.EventID = er.EventID
+     WHERE ec.EndDate < NOW()`,
+  );
+  const registrationIds = registrationRows.map((row) => row.RegistrationID);
+
+  if (registrationIds.length) {
+    await connection.query(
+      `UPDATE Transactions SET EventRegistrationID = NULL WHERE EventRegistrationID IN (?)`,
+      [registrationIds],
+    );
+    await connection.query(
+      `UPDATE PlaySession SET EventRegistrationID = NULL WHERE EventRegistrationID IN (?)`,
+      [registrationIds],
+    );
+    await connection.query(
+      `DELETE FROM EventRegistrationChild WHERE RegistrationID IN (?)`,
+      [registrationIds],
+    );
+    await connection.query(
+      `DELETE FROM EventRegistration WHERE RegistrationID IN (?)`,
+      [registrationIds],
+    );
+  }
+
+  const [bookingRows] = await connection.query(
+    `SELECT eb.BookingID
+     FROM EventBooking eb
+     JOIN EventCampaign ec ON ec.EventID = eb.EventID
+     WHERE ec.EndDate < NOW()`,
+  );
+  const bookingIds = bookingRows.map((row) => row.BookingID);
+
+  if (bookingIds.length) {
+    await connection.query(
+      `UPDATE PlaySession SET EventBookingID = NULL WHERE EventBookingID IN (?)`,
+      [bookingIds],
+    );
+    await connection.query(
+      `DELETE FROM EventBooking WHERE BookingID IN (?)`,
+      [bookingIds],
+    );
+  }
+
+  return {
+    registrationCount: registrationIds.length,
+    bookingCount: bookingIds.length,
+  };
+}
+
 async function listEvents({ publicOnly = false, search = '' } = {}) {
   const params = [];
   const filters = [];
@@ -174,23 +279,49 @@ async function listEvents({ publicOnly = false, search = '' } = {}) {
 }
 
 async function listOnlineRegistrations({ phone = '', search = '' } = {}) {
+  await cleanupEndedEventRegistrations();
+
   const keyword = String(phone || search || '').trim();
-  const params = [];
-  const filters = [];
+  const registrationParams = [];
+  const registrationFilters = [];
   if (keyword) {
-    filters.push(`er.Phone LIKE ?`);
-    params.push(`%${keyword}%`);
+    registrationFilters.push(`er.Phone LIKE ?`);
+    registrationParams.push(`%${keyword}%`);
   }
 
-  const [rows] = await db.query(
+  const [registrationRows] = await db.query(
     `SELECT er.*, ec.EventName
      FROM EventRegistration er
      JOIN EventCampaign ec ON ec.EventID = er.EventID
-     ${filters.length ? `WHERE ${filters.join(' AND ')}` : ''}
+     ${registrationFilters.length ? `WHERE ${registrationFilters.join(' AND ')}` : ''}
      ORDER BY er.SubmittedAt DESC`,
-    params,
+    registrationParams,
   );
-  return rows.map(mapOnlineRegistration);
+
+  const bookingParams = [];
+  const bookingFilters = [];
+  if (keyword) {
+    bookingFilters.push(`c.Phone LIKE ?`);
+    bookingParams.push(`%${keyword}%`);
+  }
+
+  const [bookingRows] = await db.query(
+    `SELECT eb.*, ec.EventName, c.FullName, c.Email, c.Phone
+     FROM EventBooking eb
+     JOIN EventCampaign ec ON ec.EventID = eb.EventID
+     JOIN Customer c ON c.CustomerID = eb.CustomerID
+     ${bookingFilters.length ? `WHERE ${bookingFilters.join(' AND ')}` : ''}
+     ORDER BY eb.BookingDate DESC`,
+    bookingParams,
+  );
+
+  return [
+    ...registrationRows.map(mapOnlineRegistration),
+    ...bookingRows.map(mapLegacyBookingRegistration),
+  ].sort((a, b) => {
+    if (a.isPaid !== b.isPaid) return a.isPaid ? 1 : -1;
+    return new Date(b.submittedAt || 0).getTime() - new Date(a.submittedAt || 0).getTime();
+  });
 }
 
 async function getEvent(eventId, connection = db) {
@@ -493,10 +624,84 @@ async function registerEventOnline(eventId, payload, user = null) {
   }
 }
 
+function parseOnlineRegistrationRef(value) {
+  const raw = String(value || '').trim();
+  if (raw.startsWith('booking-')) {
+    return { source: 'booking', id: Number(raw.replace('booking-', '')) };
+  }
+  if (raw.startsWith('registration-')) {
+    return { source: 'registration', id: Number(raw.replace('registration-', '')) };
+  }
+  return { source: 'registration', id: Number(raw) };
+}
+
+async function confirmLegacyBooking(bookingId, {
+  staffId = null,
+  paymentMethod = 'Chuyển khoản',
+} = {}) {
+  const normalizedPaymentMethod = normalizePaymentMethod(paymentMethod);
+  const connection = await db.getConnection();
+  try {
+    await connection.beginTransaction();
+    const [rows] = await connection.query(
+      `SELECT eb.*, ec.EventName, c.FullName, c.Email, c.Phone
+       FROM EventBooking eb
+       JOIN EventCampaign ec ON ec.EventID = eb.EventID
+       JOIN Customer c ON c.CustomerID = eb.CustomerID
+       WHERE eb.BookingID = ?
+       FOR UPDATE`,
+      [bookingId],
+    );
+    const booking = rows[0];
+    if (!booking) throw notFound('Event booking not found');
+
+    const sessionId = await ensureGateSessionForEventBooking(connection, booking);
+
+    if (booking.Status !== 'Paid' && booking.Status !== 'CheckedIn') {
+      await recordTransaction(connection, {
+        amount: Number(booking.FinalAmount || 0),
+        type: 'Sự kiện',
+        paymentMethod: normalizedPaymentMethod,
+        staffId,
+        customerId: booking.CustomerID,
+        sessionId,
+        note: booking.EventName,
+      });
+      await connection.query(
+        `UPDATE EventBooking
+         SET Status = 'Paid',
+             PaidAt = NOW()
+         WHERE BookingID = ?`,
+        [booking.BookingID],
+      );
+    }
+    await connection.commit();
+    const [updated] = await db.query(
+      `SELECT eb.*, ec.EventName, c.FullName, c.Email, c.Phone
+       FROM EventBooking eb
+       JOIN EventCampaign ec ON ec.EventID = eb.EventID
+       JOIN Customer c ON c.CustomerID = eb.CustomerID
+       WHERE eb.BookingID = ?`,
+      [bookingId],
+    );
+    return { ...mapLegacyBookingRegistration(updated[0]), gateSessionId: sessionId };
+  } catch (error) {
+    await connection.rollback();
+    throw error;
+  } finally {
+    connection.release();
+  }
+}
+
 async function confirmOnlineRegistration(registrationId, {
   staffId = null,
   paymentMethod = 'Chuyển khoản',
 } = {}) {
+  const reference = parseOnlineRegistrationRef(registrationId);
+  if (reference.source === 'booking') {
+    return confirmLegacyBooking(reference.id, { staffId, paymentMethod });
+  }
+  registrationId = reference.id;
   const normalizedPaymentMethod = normalizePaymentMethod(paymentMethod);
   const connection = await db.getConnection();
   try {
@@ -512,6 +717,8 @@ async function confirmOnlineRegistration(registrationId, {
     const registration = rows[0];
     if (!registration) throw notFound('Event registration not found');
 
+    const sessionId = await ensureGateSessionForEventRegistration(connection, registration);
+
     if (registration.Status !== 'Confirmed') {
       const transactionId = await recordTransaction(connection, {
         amount: Number(registration.FinalAmount || 0),
@@ -519,6 +726,7 @@ async function confirmOnlineRegistration(registrationId, {
         paymentMethod: normalizedPaymentMethod,
         staffId,
         customerId: registration.CustomerID,
+        sessionId,
         eventRegistrationId: registration.RegistrationID,
         note: registration.EventName,
       });
@@ -531,8 +739,6 @@ async function confirmOnlineRegistration(registrationId, {
         [transactionId, registration.RegistrationID],
       );
     }
-    const sessionId = await ensureGateSessionForEventRegistration(connection, registration);
-
     await connection.commit();
     const [updated] = await db.query(
       `SELECT er.*, ec.EventName

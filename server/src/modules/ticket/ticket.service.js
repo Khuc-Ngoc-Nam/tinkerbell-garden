@@ -84,11 +84,11 @@ function calculateBillFromRow(row, serviceAmount = 0) {
 }
 
 function mapSession(row) {
-  const bill = calculateBillFromRow(row, row.ServiceAmount);
+  const bill = calculateBillFromRow(row, 0);
   return {
     id: row.SessionID,
     customerId: row.CustomerID,
-    customerName: row.FullName || row.GuestName || 'Khách vãng lai',
+    customerName: row.EventParentName || row.FullName || row.GuestName || 'Khách vãng lai',
     phone: row.Phone,
     isVip: bill.isVip,
     ticketType: row.TypeName || row.EventName || (row.Purpose === 'Event' ? 'Sự kiện' : null),
@@ -314,8 +314,6 @@ async function createSession(payload, user = null) {
       ],
     );
 
-    await addSessionServices(connection, result.insertId, serviceItems, user);
-
     await connection.commit();
     const bill = calculateWithVipDiscount(ticketFee, customer);
     return {
@@ -340,6 +338,7 @@ async function listActiveSessions(user = null) {
     `SELECT ps.*, c.FullName, c.Phone, c.IsVIP, c.VIPExpiryDate,
             tt.TypeName, tt.BasePrice, tt.TimeLimit,
             ec.EventName, ec.TicketPrice AS EventTicketPrice,
+            er.ParentName AS EventParentName,
             TIMESTAMPDIFF(MINUTE, ec.StartDate, ec.EndDate) AS EventTimeLimit,
             CASE
               WHEN ps.Status = 'Playing' AND ps.CheckinTime IS NOT NULL
@@ -347,16 +346,12 @@ async function listActiveSessions(user = null) {
               ELSE 0
             END AS PlayedMinutes,
             (c.IsVIP = TRUE AND (c.VIPExpiryDate IS NULL OR c.VIPExpiryDate >= NOW())) AS IsVIPActive,
-            COALESCE(ss.ServiceAmount, 0) AS ServiceAmount
+            0 AS ServiceAmount
      FROM PlaySession ps
      LEFT JOIN Customer c ON c.CustomerID = ps.CustomerID
      LEFT JOIN TicketType tt ON tt.TypeID = ps.TypeID
      LEFT JOIN EventCampaign ec ON ec.EventID = ps.EventID
-     LEFT JOIN (
-       SELECT SessionID, SUM(LineTotal) AS ServiceAmount
-       FROM SessionService
-       GROUP BY SessionID
-     ) ss ON ss.SessionID = ps.SessionID
+     LEFT JOIN EventRegistration er ON er.RegistrationID = ps.EventRegistrationID
      WHERE ps.Status IN ('Pending', 'Playing')
      ORDER BY
        CASE ps.Status WHEN 'Playing' THEN 0 ELSE 1 END,
@@ -371,6 +366,7 @@ async function getSession(sessionId) {
     `SELECT ps.*, c.FullName, c.Phone, c.IsVIP, c.VIPExpiryDate,
             tt.TypeName, tt.BasePrice, tt.TimeLimit,
             ec.EventName, ec.TicketPrice AS EventTicketPrice,
+            er.ParentName AS EventParentName,
             TIMESTAMPDIFF(MINUTE, ec.StartDate, ec.EndDate) AS EventTimeLimit,
             CASE
               WHEN ps.Status = 'Playing' AND ps.CheckinTime IS NOT NULL
@@ -378,16 +374,12 @@ async function getSession(sessionId) {
               ELSE 0
             END AS PlayedMinutes,
             (c.IsVIP = TRUE AND (c.VIPExpiryDate IS NULL OR c.VIPExpiryDate >= NOW())) AS IsVIPActive,
-            COALESCE(ss.ServiceAmount, 0) AS ServiceAmount
+            0 AS ServiceAmount
      FROM PlaySession ps
      LEFT JOIN Customer c ON c.CustomerID = ps.CustomerID
      LEFT JOIN TicketType tt ON tt.TypeID = ps.TypeID
      LEFT JOIN EventCampaign ec ON ec.EventID = ps.EventID
-     LEFT JOIN (
-       SELECT SessionID, SUM(LineTotal) AS ServiceAmount
-       FROM SessionService
-       GROUP BY SessionID
-     ) ss ON ss.SessionID = ps.SessionID
+     LEFT JOIN EventRegistration er ON er.RegistrationID = ps.EventRegistrationID
      WHERE ps.SessionID = ?`,
     [sessionId],
   );
@@ -448,6 +440,7 @@ async function calculateCheckout(sessionId, user = null, connection = db) {
     `SELECT ps.*, c.FullName, c.Phone, c.IsVIP, c.VIPExpiryDate,
             tt.BasePrice, tt.TimeLimit, tt.TypeName,
             ec.EventName, ec.TicketPrice AS EventTicketPrice,
+            er.ParentName AS EventParentName,
             TIMESTAMPDIFF(MINUTE, ec.StartDate, ec.EndDate) AS EventTimeLimit,
             CASE
               WHEN ps.Status = 'Playing' AND ps.CheckinTime IS NOT NULL
@@ -460,6 +453,7 @@ async function calculateCheckout(sessionId, user = null, connection = db) {
      LEFT JOIN Customer c ON c.CustomerID = ps.CustomerID
      LEFT JOIN TicketType tt ON tt.TypeID = ps.TypeID
      LEFT JOIN EventCampaign ec ON ec.EventID = ps.EventID
+     LEFT JOIN EventRegistration er ON er.RegistrationID = ps.EventRegistrationID
      WHERE ps.SessionID = ?`,
     [sessionId],
   );
@@ -467,21 +461,11 @@ async function calculateCheckout(sessionId, user = null, connection = db) {
   if (!session) throw notFound('Play session not found');
   if (session.Status !== 'Playing') throw badRequest('This session has not been checked in');
 
-  const [services] = await connection.query(
-    `SELECT ss.ServiceLineID AS id, ss.ProductID AS productId, p.ProductName AS name,
-            ss.Quantity AS quantity, ss.UnitPrice AS unitPrice, ss.LineTotal AS lineTotal
-     FROM SessionService ss
-     JOIN Product p ON p.ProductID = ss.ProductID
-     WHERE ss.SessionID = ?
-     ORDER BY ss.ServiceLineID`,
-    [sessionId],
-  );
-  const serviceAmount = services.reduce((sum, item) => sum + Number(item.lineTotal || 0), 0);
-  const bill = calculateBillFromRow(session, serviceAmount);
+  const bill = calculateBillFromRow(session, 0);
 
   return {
     sessionId: Number(sessionId),
-    customerName: session.FullName || session.GuestName || 'Khách vãng lai',
+    customerName: session.EventParentName || session.FullName || session.GuestName || 'Khách vãng lai',
     phone: session.Phone || null,
     purpose: session.Purpose || 'Play',
     ticketType: session.TypeName || session.EventName || (session.Purpose === 'Event' ? 'Sự kiện' : null),
@@ -491,14 +475,7 @@ async function calculateCheckout(sessionId, user = null, connection = db) {
     checkoutTime: session.PreviewCheckoutTime,
     status: session.Status,
     ...bill,
-    services: services.map((item) => ({
-      id: item.id,
-      productId: item.productId,
-      name: item.name,
-      quantity: Number(item.quantity || 0),
-      unitPrice: Number(item.unitPrice || 0),
-      lineTotal: Number(item.lineTotal || 0),
-    })),
+    services: [],
   };
 }
 
@@ -508,11 +485,6 @@ function checkoutTransactionComponents(calculation) {
       amount: Number(calculation.ticketFee || 0),
       type: calculation.purpose === 'Event' ? 'Sự kiện' : 'Vé vào cửa',
       note: calculation.prepaidOnline ? 'Đã thanh toán online' : calculation.ticketType,
-    },
-    {
-      amount: Number(calculation.serviceAmount || 0),
-      type: 'Dịch vụ lẻ',
-      note: 'Dịch vụ phát sinh trong lượt chơi',
     },
     {
       amount: Number(calculation.overtimePenalty || 0),
@@ -624,25 +596,29 @@ async function checkoutSession(sessionId, { staffId = null, user = null, payment
 
 async function sellServiceOrder({
   username = '',
-  sessionId = null,
   customerId = null,
   items = [],
+  paymentMethod = 'Tiền mặt',
+  staffId = null,
   user = null,
 }) {
   if (!Array.isArray(items) || items.length === 0) throw badRequest('At least one service item is required');
+  const normalizedPaymentMethod = normalizePaymentMethod(paymentMethod);
 
   const connection = await db.getConnection();
   try {
     await connection.beginTransaction();
-    let resolvedSessionId = sessionId ? Number(sessionId) : null;
+    let resolvedCustomer = null;
     if (username) {
       const customer = await findCustomerByUsername(username, connection);
-      if (!customer) throw notFound('Customer not found');
-      customerId = customer.CustomerID;
+      if (customer) {
+        resolvedCustomer = customer;
+        customerId = customer.CustomerID;
+      }
     }
 
-    if (!resolvedSessionId) {
-      if (!customerId) throw badRequest('Username or sessionId is required');
+    let activeSessionId = null;
+    if (customerId) {
       const [sessions] = await connection.query(
         `SELECT SessionID
          FROM PlaySession
@@ -652,21 +628,11 @@ async function sellServiceOrder({
          FOR UPDATE`,
         [customerId],
       );
-      if (!sessions[0]) throw notFound('No active checked-in session found for this customer');
-      resolvedSessionId = sessions[0].SessionID;
-    } else {
-      const [sessions] = await connection.query(
-        `SELECT SessionID
-         FROM PlaySession
-         WHERE SessionID = ? AND Status = 'Playing'
-         LIMIT 1
-         FOR UPDATE`,
-        [resolvedSessionId],
-      );
-      if (!sessions[0]) throw notFound('No active checked-in session found');
+      activeSessionId = sessions[0]?.SessionID || null;
     }
 
     let serviceAmount = 0;
+    const orderLines = [];
     for (const item of items) {
       const productId = Number(item.productId);
       const quantity = Number(item.quantity || 0);
@@ -682,21 +648,52 @@ async function sellServiceOrder({
       const unitPrice = toNumber(product.Price);
       const lineTotal = unitPrice * quantity;
       serviceAmount += lineTotal;
-      await connection.query(
-        `INSERT INTO SessionService (SessionID, ProductID, Quantity, UnitPrice, LineTotal)
-         VALUES (?, ?, ?, ?, ?)`,
-        [resolvedSessionId, productId, quantity, unitPrice, lineTotal],
-      );
+      orderLines.push({ productId, quantity, unitPrice });
       await connection.query(`UPDATE Product SET Stock = Stock - ? WHERE ProductID = ?`, [quantity, productId]);
     }
 
     if (serviceAmount <= 0) throw badRequest('At least one service item is required');
+    const isVip = customerIsVip(resolvedCustomer);
+    const vipDiscount = isVip ? Math.round(serviceAmount * 0.2) : 0;
+    const finalAmount = Math.max(0, serviceAmount - vipDiscount);
+
+    const [orderResult] = await connection.query(
+      `INSERT INTO RetailOrder (CustomerID, StaffID, TotalAmount, Source, Status)
+       VALUES (?, ?, ?, 'Service', 'Paid')`,
+      [customerId || null, staffId, finalAmount],
+    );
+    const orderId = orderResult.insertId;
+
+    for (const line of orderLines) {
+      await connection.query(
+        `INSERT INTO RetailOrderDetail (OrderID, ProductID, Quantity, UnitPrice)
+         VALUES (?, ?, ?, ?)`,
+        [orderId, line.productId, line.quantity, line.unitPrice],
+      );
+    }
+
+    const transactionId = await recordTransaction(connection, {
+      amount: finalAmount,
+      type: 'Dịch vụ lẻ',
+      paymentMethod: normalizedPaymentMethod,
+      staffId,
+      customerId: customerId || null,
+      sessionId: activeSessionId,
+      orderId,
+      note: isVip ? 'Thanh toán riêng dịch vụ - đã trừ ưu đãi VIP 20%' : 'Thanh toán riêng dịch vụ',
+    });
 
     await connection.commit();
     return {
-      sessionId: resolvedSessionId,
-      serviceAmount,
-      message: 'Service items were added to the post-paid session bill',
+      orderId,
+      transactionId,
+      customerId: customerId || null,
+      sessionId: activeSessionId,
+      grossAmount: serviceAmount,
+      vipDiscount,
+      finalAmount,
+      paymentMethod: normalizedPaymentMethod,
+      message: 'Service order was paid separately',
     };
   } catch (error) {
     await connection.rollback();

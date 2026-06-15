@@ -187,7 +187,62 @@ async function getCurrentUser(user) {
   return { type: 'customer', user: publicCustomer(rows[0]) };
 }
 
+async function changePassword(user, { currentPassword, newPassword, confirmPassword }) {
+  if (!currentPassword || !newPassword || !confirmPassword) {
+    throw badRequest('Vui lòng nhập đầy đủ mật khẩu cũ, mật khẩu mới và xác nhận mật khẩu mới');
+  }
+  if (newPassword !== confirmPassword) {
+    throw badRequest('Mật khẩu mới và nhập lại mật khẩu mới không khớp');
+  }
+  if (String(newPassword).length < 6) {
+    throw badRequest('Mật khẩu mới phải có ít nhất 6 ký tự');
+  }
+
+  if (user.type === 'staff') {
+    const [rows] = await db.query(
+      `SELECT StaffID, PasswordHash
+       FROM Staff
+       WHERE StaffID = ? AND Active = TRUE
+       LIMIT 1`,
+      [user.sub],
+    );
+    const staff = rows[0];
+    if (!staff) throw notFound('Staff account not found');
+    if (!verifyPassword(currentPassword, staff.PasswordHash)) {
+      throw badRequest('Mật khẩu cũ không đúng');
+    }
+
+    await db.query(
+      `UPDATE Staff SET PasswordHash = ? WHERE StaffID = ?`,
+      [hashPassword(newPassword), user.sub],
+    );
+    return { changed: true };
+  }
+
+  const [rows] = await db.query(
+    `SELECT CustomerID, PasswordHash
+     FROM Customer
+     WHERE CustomerID = ? AND PasswordHash IS NOT NULL
+     LIMIT 1`,
+    [user.sub],
+  );
+  const customer = rows[0];
+  if (!customer) throw notFound('Customer account not found');
+  if (!verifyPassword(currentPassword, customer.PasswordHash)) {
+    throw badRequest('Mật khẩu cũ không đúng');
+  }
+
+  await db.query(
+    `UPDATE Customer
+     SET PasswordHash = ?, UpdatedAt = NOW()
+     WHERE CustomerID = ?`,
+    [hashPassword(newPassword), user.sub],
+  );
+  return { changed: true };
+}
+
 module.exports = {
+  changePassword,
   getCurrentUser,
   login,
   loginCustomer,

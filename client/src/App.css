@@ -82,6 +82,7 @@
 .parent-chip {
   max-width: 190px;
   overflow: hidden;
+  border: 0;
   border-radius: 999px;
   padding: 8px 12px;
   background: #fff;
@@ -91,6 +92,20 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   box-shadow: 0 4px 12px rgba(31, 41, 55, 0.08);
+}
+
+.parent-chip-button {
+  cursor: pointer;
+  font: inherit;
+}
+
+.staff-account-menu {
+  display: inline-flex;
+}
+
+.staff-account-dropdown {
+  z-index: 80;
+  min-width: 210px;
 }
 
 .user-portal-shell {
@@ -176,6 +191,61 @@
 .portal-account-dropdown button:last-child {
   border-bottom: 0;
   color: #8a2d2d;
+}
+
+.change-password-backdrop {
+  position: fixed;
+  z-index: 220;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.58);
+  backdrop-filter: blur(4px);
+}
+
+.change-password-modal {
+  display: grid;
+  gap: 16px;
+  width: min(430px, 100%);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 28px;
+  background: #ffffff;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+}
+
+.change-password-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.change-password-head h2 {
+  margin: 0;
+  color: #0f2c45;
+  font-size: 26px;
+}
+
+.change-password-head button {
+  width: 38px;
+  min-height: 38px;
+  border: 1px solid #edf0ea;
+  border-radius: 12px;
+  background: #f8faf8;
+  color: #344054;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.change-password-message {
+  margin: 0;
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: #f5faf7;
+  color: #344054;
+  font-weight: 800;
 }
 
 .figma-hero {
@@ -983,6 +1053,30 @@ textarea {
   font: inherit;
   font-weight: 900;
   text-align: left;
+}
+
+.facility-action-cell {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.facility-edit-button,
+.facility-delete-button {
+  min-height: 38px;
+  border: 1px solid #dfe7df;
+  border-radius: 12px;
+  padding: 0 12px;
+  background: #f8faf7;
+  color: #0f2c45;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.facility-delete-button {
+  border-color: #fecdca;
+  background: #fff7f6;
+  color: #b42318;
 }
 
 .cashier-dropdown {
