@@ -3,9 +3,11 @@ services:
     image: mysql:8.4
     container_name: tinkerbell_db
     restart: unless-stopped
+    command: --default-time-zone=+07:00
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-123456}
       MYSQL_DATABASE: tinkerbellgarden
+      TZ: Asia/Ho_Chi_Minh
     volumes:
       - tinkerbell_mysql:/var/lib/mysql
       - ./server/database.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
@@ -26,11 +28,13 @@ services:
       - "5000:5000"
     environment:
       PORT: 5000
+      TZ: Asia/Ho_Chi_Minh
       DB_HOST: db
       DB_USER: root
       DB_PASSWORD: ${MYSQL_ROOT_PASSWORD:-123456}
       DB_NAME: tinkerbellgarden
       DB_PORT: 3306
+      DB_TIMEZONE: +07:00
       CORS_ORIGIN: ${CORS_ORIGIN:-*}
       JWT_SECRET: ${JWT_SECRET:-change-this-secret-before-production}
       SMTP_HOST: ${SMTP_HOST:-}
@@ -54,6 +58,8 @@ services:
       - server
     ports:
       - "5173:80"
+    environment:
+      TZ: Asia/Ho_Chi_Minh
 
 volumes:
   tinkerbell_mysql:

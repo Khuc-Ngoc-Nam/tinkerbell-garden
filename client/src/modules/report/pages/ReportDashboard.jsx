@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { request } from '../../../services/api'
-import { formatCurrency, formatDate } from '../../../utils/format'
+import { formatCurrency, formatDate, toTimestamp } from '../../../utils/format'
 import './ReportDashboard.css'
 
 const emptyDashboard = {
@@ -29,13 +29,13 @@ function normalize(value) {
 
 function localTime(value) {
   if (!value) return null
-  const timestamp = new Date(value).getTime()
+  const timestamp = toTimestamp(value)
   return Number.isNaN(timestamp) ? null : timestamp
 }
 
 function dayBound(value, endOfDay = false) {
   if (!value) return null
-  return new Date(`${value}T${endOfDay ? '23:59:59.999' : '00:00:00.000'}`).getTime()
+  return toTimestamp(`${value}T${endOfDay ? '23:59:59.999' : '00:00:00.000'}`)
 }
 
 function sumRows(rows, key) {

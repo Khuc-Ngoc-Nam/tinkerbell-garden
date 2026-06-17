@@ -24,7 +24,10 @@ function forbidden(message) {
 }
 
 function parseDateRange(query) {
-  const today = new Date().toISOString().slice(0, 10);
+  const now = new Date();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const today = `${now.getFullYear()}-${month}-${day}`;
   return {
     from: query.from || today,
     to: query.to || query.from || today,

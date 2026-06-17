@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { request } from '../../../services/api'
-import { formatCurrency } from '../../../utils/format'
+import { formatCurrency, formatDateOnly } from '../../../utils/format'
 
 const blankCustomer = {
   fullName: '',
@@ -106,7 +106,7 @@ export default function RegistrationForms({ events, selectedEvent, customerSessi
     setMessage('')
     try {
       const data = await request('post', '/portal/vip/register', {}, { authScope: 'customer' })
-      setMessage(`VIP đã kích hoạt đến ${new Date(data.vipExpiryDate).toLocaleDateString('vi-VN')}`)
+      setMessage(`VIP đã kích hoạt đến ${formatDateOnly(data.vipExpiryDate)}`)
     } catch (error) {
       setMessage(error.message)
     } finally {

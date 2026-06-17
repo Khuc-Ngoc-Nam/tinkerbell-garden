@@ -42,12 +42,11 @@ function asDateTime(date, time, fallback) {
 
 function toDateInput(value) {
   if (!value) return null;
-  if (typeof value === 'string') return value.slice(0, 10);
+  if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}/.test(value)) return value.slice(0, 10);
   const date = new Date(value);
-  const shifted = new Date(date.getTime() + 7 * 60 * 60 * 1000);
-  const month = String(shifted.getUTCMonth() + 1).padStart(2, '0');
-  const day = String(shifted.getUTCDate()).padStart(2, '0');
-  return `${shifted.getUTCFullYear()}-${month}-${day}`;
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${date.getFullYear()}-${month}-${day}`;
 }
 
 function toTimeInput(value) {

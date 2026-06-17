@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { request } from '../../../services/api'
+import { formatLongVietnameseDate } from '../../../utils/format'
 import './VipMembership.css'
 
 const vipPackages = [
@@ -11,14 +12,6 @@ const vipPackages = [
 
 function formatAmountText(value) {
   return new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 }).format(Number(value || 0))
-}
-
-function formatVipDate(value) {
-  if (!value) return '-'
-  const date = new Date(value)
-  const day = String(date.getDate()).padStart(2, '0')
-  const month = String(date.getMonth() + 1).padStart(2, '0')
-  return `ngày ${day}, tháng ${month}, năm ${date.getFullYear()}`
 }
 
 export default function VipMembership() {
@@ -93,7 +86,7 @@ export default function VipMembership() {
             {isVip ? (
               <>
                 <p>
-                  Quý khách đang là thành viên VIP, quý khách có thể nhận được những đặc quyền VIP như giảm giá 20% cho toàn bộ hoạt động tại khu vui chơi. Thời hạn sử dụng đến {formatVipDate(profile.vipExpiryDate)}.
+                  Quý khách đang là thành viên VIP, quý khách có thể nhận được những đặc quyền VIP như giảm giá 20% cho toàn bộ hoạt động tại khu vui chơi. Thời hạn sử dụng đến {formatLongVietnameseDate(profile.vipExpiryDate)}.
                 </p>
                 <button className="primary-button" type="button" onClick={() => setStep('choose')}>
                   Gia hạn thành viên VIP
